@@ -1,0 +1,25 @@
+grammar org.modaptix.mumads.dsl.mcudl.Mcudl with org.eclipse.xtext.common.Terminals
+
+generate mcudl "http://www.modaptix.org/mumads/dsl/mcudl/Mcudl"
+
+Mcudl:
+	'mcu' name=ID 'architecture' arch=ID
+	'{'
+		memoryMap=MemoryMap 
+	'}'
+;
+
+terminal HEX: '0x' ('a'..'f'|'A'..'F'|'0'..'9')+;
+enum MEMTYPE: RAM='RAM' | PAGING='PAGING' | FLASH='FLASH' | NV='NV';
+
+MemoryMap:
+	'memory_map' '{'
+		ranges+=(MemoryRange)+
+	'}'
+;
+
+MemoryRange:
+	start=HEX
+	('->' end=HEX)?
+	type=MEMTYPE
+;
