@@ -3,6 +3,7 @@
 	<name>org.modaptix.mumads.dsl.asm.ui</name>
 	<comment></comment>
 	<projects>
+		<project>org.modaptix.xtext.util</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

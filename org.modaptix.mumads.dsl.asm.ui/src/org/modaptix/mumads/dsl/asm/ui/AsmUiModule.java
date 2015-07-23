@@ -4,6 +4,7 @@
 package org.modaptix.mumads.dsl.asm.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
 
@@ -20,6 +21,11 @@ public class AsmUiModule extends org.modaptix.mumads.dsl.asm.ui.AbstractAsmUiMod
 	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration()
 	{
 		return AsmHighlightingConfiguration.class;
+	}
+
+	public Class<? extends AbstractAntlrTokenToAttributeIdMapper> bindAbstractAntlrTokenToAttributeIdMapper()
+	{
+		return AsmAntlrTokenToAttributeIdMapper.class ;
 	}
 
 	public Class<? extends ISemanticHighlightingCalculator> bindISemanticHighlightingCalculator()
