@@ -3,9 +3,19 @@
  */
 package org.modaptix.mumads.dsl.asm;
 
-/**
- * Use this class to register components to be used at runtime / without the Equinox extension registry.
- */
-public class AsmRuntimeModule extends org.modaptix.mumads.dsl.asm.AbstractAsmRuntimeModule {
+import org.eclipse.xtext.conversion.IValueConverterService;
+import org.modaptix.xtext.expressions.TerminalConverters;
 
+/**
+ * Use this class to register components to be used at runtime / without the
+ * Equinox extension registry.
+ */
+public class AsmRuntimeModule extends
+		org.modaptix.mumads.dsl.asm.AbstractAsmRuntimeModule
+{
+	@Override
+	public Class<? extends IValueConverterService> bindIValueConverterService()
+	{
+		return TerminalConverters.class;
+	}
 }

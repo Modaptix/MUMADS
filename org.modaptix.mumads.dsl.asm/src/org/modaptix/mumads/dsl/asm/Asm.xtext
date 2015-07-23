@@ -1,8 +1,14 @@
-grammar org.modaptix.mumads.dsl.asm.Asm hidden(SL_COMMENT) /* with org.eclipse.xtext.common.Terminals */
+grammar org.modaptix.mumads.dsl.asm.Asm 
+
+with org.modaptix.xtext.expressions.ArithmeticExpression
+
+hidden(SL_COMMENT) 
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.modaptix.org/xtext/expressions/ArithmeticExpression" as arithmeticExpression
 
 generate asm "http://www.modaptix.org/mumads/dsl/asm/Asm"
+
 
 Asm:
 	(WS* EOL)*	
@@ -10,20 +16,39 @@ Asm:
 ;
 
 Instruction:
-	(label=ID)? WS name=ID (WS operands+=Operand (COMMA operands+=Operand)* )?	
+	MacroDefinition | ArchInstruction
+;
+
+MacroDefinition:
+	label=ID WS ('MACRO'|'macro') (WS* EOL)+
+	(code+=Instruction (WS* EOL)+)+
+	WS ('ENDM'|'endm')
+;
+
+ArchInstruction:
+	(label=ID)? WS name=ID ('.' variant=ID)? (WS operands+=Operand (COMMA operands+=Operand)* )?	
 ;
 
 Operand:
 	immediate ?= '#'?
-	name = ID
+	value = IntegerExpression
+;
+
+IntegerLiteralOrReference returns arithmeticExpression::IntegerExpression:
+	IntegerLiteral | NamedReference
+;
+
+NamedReference:
+	name=NamedReferenceName
+;
+
+NamedReferenceName returns ecore::EString:
+	ID ( '[' ID ']' )?
 ;
 
 terminal EOL: ('\r'? '\n')+;
 terminal WS: (' '|'\t')+;
 terminal COMMA: (',' WS?);
-
 terminal ID: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
-
-terminal HEX: ('0x'|'$')('a'..'f'|'A'..'F'|'0'..'9')+;
 
 terminal SL_COMMENT 	: ';' !('\n'|'\r')*;
