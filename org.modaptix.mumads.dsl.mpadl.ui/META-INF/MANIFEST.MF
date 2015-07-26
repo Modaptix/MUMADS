@@ -16,7 +16,9 @@ Require-Bundle: org.modaptix.mumads.dsl.mpadl;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.xtext.ui.codetemplates.ui,
- org.eclipse.compare
+ org.eclipse.compare,
+ org.modaptix.xtext.expressions;bundle-version="1.0.0",
+ org.modaptix.xtext.expressions.ui
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.modaptix.mumads.dsl.mpadl.ui.quickfix,

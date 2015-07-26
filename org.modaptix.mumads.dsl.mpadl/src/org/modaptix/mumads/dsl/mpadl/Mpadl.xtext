@@ -1,6 +1,11 @@
-grammar org.modaptix.mumads.dsl.mpadl.Mpadl with org.eclipse.xtext.common.Terminals
+grammar org.modaptix.mumads.dsl.mpadl.Mpadl
+
+with org.modaptix.xtext.expressions.ArithmeticExpression
+
+hidden(SL_COMMENT, WS, EOL) 
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.modaptix.org/xtext/expressions/ArithmeticExpression" as arithmeticExpression
 
 generate mpadl "http://www.modaptix.org/mumads/dsl/mpadl/Mpadl"
 
@@ -8,7 +13,7 @@ Mpadl:
 	'architecture' name=STRING '{'
 	
 		'registers' '{'
-			registers+=(RegisterPhysical | RegisterMmap)+
+			registers+=RegisterOrFlag+
 		'}'
 		
 		'addressing_modes' '{' 
@@ -28,18 +33,12 @@ Mpadl:
 	'}'
 ;
 
-enum OPERAND_TYPE: IMMEDIATE='i' | ADDRESS='a' | RELATIVE_ADDRESS='r' | NUMERIC_CONSTANT='c';
+RegisterOrFlag:
+	RegisterIndexable | RegisterFlag
+;
 
-enum INTERRUPT_TYPE: REAL='real' | WAIT='simulated';
-
-terminal HEX returns ecore::EInt: '0x' ('a'..'f'|'A'..'F'|'0'..'9')+;
-
-terminal TRANSLATES_TO: '->';
-
-terminal MATH_SYMBOL: '+' | '-' | '*' | '/';
-
-Register:
-	RegisterPhysical | RegisterMmap
+RegisterIndexable:
+	RegisterPhysical | RegisterMmap	
 ;
 
 RegisterPhysical:
@@ -52,9 +51,14 @@ RegisterPhysical:
 RegisterMmap:
 	'mmap'
 	name=ID
-	('[' index=[RegisterMmap] ']')?
+	('[' index=[RegisterIndexable] ']')?
 	'(' size=INT ')'	
 	address=HEX	
+;
+
+RegisterFlag:
+	'flag'
+	name=ID
 ;
 
 AddressingMode:
@@ -70,34 +74,43 @@ Instruction:
 ;
 
 SimpleInstruction:
-	name=ID TRANSLATES_TO opcodes+=Opcode+
+	name=ID '->' opcodes+=Opcode (',' opcodes+=Opcode)* 
 ;
 
-Opcode:
-	LiteralValue | OperandReference | Expression
+Opcode returns arithmeticExpression::IntegerExpression:
+	IntegerExpression
 ;
 
-LiteralValue:
-	value=(HEX | INT)
+IntegerLiteralOrReference returns arithmeticExpression::IntegerExpression:
+	IntegerLiteral | OpcodeReference
 ;
 
-OperandReference:
-	'[' operand=INT ']'
-;
-
-Expression:
-	'(' lhs=Opcode operation=MATH_SYMBOL rhs=Opcode  ')'
+OpcodeReference:
+	'[' opcode=INT ']'
 ;
 
 ComplexInstruction:
 	name=ID
-	variants+=InstructionVariant (',' variants+=InstructionVariant)*
+	variants+=InstructionVariant ('|' variants+=InstructionVariant)*
 ;
 
 InstructionVariant:
-	operands+=Operand (',' operands+=Operand)* TRANSLATES_TO opcodes+=Opcode+
+	operands+=Operand (',' operands+=Operand)* '->' opcodes+=Opcode (',' opcodes+=Opcode)*
 ;
 
 Operand:
 	name=OPERAND_TYPE ('(' width=INT ')')?
 ;
+
+enum OPERAND_TYPE: IMMEDIATE='i' | ADDRESS='a' | RELATIVE_ADDRESS='r' | NUMERIC_CONSTANT='c';
+enum INTERRUPT_TYPE: REAL='real' | WAIT='simulated';
+
+terminal EOL: ('\r'? '\n')+;
+terminal WS: (' '|'\t')+;
+
+terminal STRING: 
+	'"' ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|'"') )* '"' |
+	"'" ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|"'") )* "'"
+; 
+
+terminal SL_COMMENT: '//' !('\n'|'\r')*;
