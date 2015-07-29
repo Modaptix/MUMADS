@@ -16,17 +16,21 @@ Asm:
 ;
 
 Instruction:
-	MacroDefinition | ArchInstruction
+	Import | MacroDefinition | ArchInstruction
+;
+
+Import:
+	'#'? ('import'|'include') WS* importURI=ID
 ;
 
 MacroDefinition:
-	label=ID WS ('MACRO'|'macro') (WS* EOL)+
+	name=ID WS ('MACRO'|'macro') (WS* EOL)+
 	(code+=Instruction (WS* EOL)+)+
 	WS ('ENDM'|'endm')
 ;
 
 ArchInstruction:
-	(label=ID)? WS name=ID ('.' variant=ID)? (WS operands+=Operand (COMMA operands+=Operand)* )?	
+	(name=ID)? WS mnemonic=ID ('.' variant=ID)? (WS operands+=Operand (COMMA operands+=Operand)* )?	
 ;
 
 Operand:
@@ -39,7 +43,7 @@ IntegerLiteralOrReference returns arithmeticExpression::IntegerExpression:
 ;
 
 NamedReference:
-	name=NamedReferenceName
+	target=NamedReferenceName
 ;
 
 NamedReferenceName returns ecore::EString:

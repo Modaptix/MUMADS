@@ -10,20 +10,25 @@ public class AsmHighlightingConfiguration extends ArithmeticExpressionHighlighti
 	// Provide ID strings for the highlighting calculator
 	public static final String REGISTER_ID = "register";
 	public static final String LABEL_ID = "label";
+	public static final String MACRO_ID = "macro";
 		
 	@Override
 	public void configure(IHighlightingConfigurationAcceptor acceptor)
 	{
 		super.configure(acceptor);
 		
-		acceptor.acceptDefaultHighlighting(REGISTER_ID, "Register name", registerNameTextStyle());
 		acceptor.acceptDefaultHighlighting(LABEL_ID, "Label", labelModeTextStyle());
+		acceptor.acceptDefaultHighlighting(REGISTER_ID, "Register name", registerNameTextStyle());
+		acceptor.acceptDefaultHighlighting(MACRO_ID, "Macro name", macroNameTextStyle());
+//		acceptor.acceptDefaultHighlighting(_ID, "", TextStyle());
+//		acceptor.acceptDefaultHighlighting(_ID, "", TextStyle());
 	}
 
-	protected TextStyle registerNameTextStyle()
+	@Override
+	public TextStyle commentTextStyle()
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(0, 130, 175));
+		textStyle.setColor(new RGB(125, 125, 125));
 		return textStyle;
 	}
 
@@ -34,10 +39,18 @@ public class AsmHighlightingConfiguration extends ArithmeticExpressionHighlighti
 		return textStyle;
 	}
 	
-	public TextStyle commentTextStyle()
+	protected TextStyle registerNameTextStyle()
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(125, 125, 125));
+		textStyle.setColor(new RGB(0, 130, 175));
 		return textStyle;
 	}
+
+	protected TextStyle macroNameTextStyle()
+	{
+		TextStyle textStyle = defaultTextStyle().copy();
+		textStyle.setColor(new RGB(130, 0, 175));
+		return textStyle;
+	}
+
 }

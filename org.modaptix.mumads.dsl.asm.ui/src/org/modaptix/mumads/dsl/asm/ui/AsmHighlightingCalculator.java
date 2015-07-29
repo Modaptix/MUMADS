@@ -15,14 +15,14 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 {
 	protected void highlight(ArchInstruction semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
-		String featureName = assignment.getFeature();
+		final String featureName = assignment.getFeature();
 		
-		if (featureName.equals("name"))
+		if (featureName.equals("mnemonic"))
 		{
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.KEYWORD_ID);
 			return;
 		}
-		if (featureName.equals("label"))
+		if (featureName.equals("name"))
 		{
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.LABEL_ID);
 			return;
@@ -41,11 +41,11 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 	
 	protected void highlight(MacroDefinition semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
-		String featureName = assignment.getFeature();
+		final String featureName = assignment.getFeature();
 		
-		if (featureName.equals("label"))
+		if (featureName.equals("name"))
 		{
-			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.LABEL_ID);
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.MACRO_ID);
 			return;
 		}
 	}
