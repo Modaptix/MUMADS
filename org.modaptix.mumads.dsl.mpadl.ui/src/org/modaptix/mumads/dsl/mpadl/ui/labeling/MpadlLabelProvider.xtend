@@ -8,8 +8,9 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
 import org.modaptix.mumads.dsl.mpadl.mpadl.InstructionVariant
 import org.modaptix.mumads.dsl.mpadl.mpadl.Operand
-import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterPhysical
-import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterMmap
+import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable
+import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingMode
+import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeWithSize
 
 /**
  * Provides labels for a EObjects.
@@ -23,20 +24,26 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 		super(delegate);
 	}
 
-	def text(RegisterPhysical register)
+	def text(RegisterIndexable register)
 	{
+		var String name = register.getName()
+		
 		if (register.getIndex() != null)
-			return register.getName()+"["+register.getIndex().getName()+"]";
+			name += "["+register.getIndex().getName()+"]";
+			
+		name += " (" + register.size + " bits)";
 					
-		return register.getName();
+		return name;
 	}
 
-	def text(RegisterMmap register)
+	def text(AddressingMode addressingMode)
 	{
-		if (register.getIndex() != null)
-			return register.getName()+"["+register.getIndex().getName()+"]";
-					
-		return register.getName();
+		return addressingMode.longName;
+	}
+
+	def text(AddressingModeWithSize addressingMode)
+	{
+		return addressingMode.longName + " (" + addressingMode.size + " bits)";
 	}
 
 	def text(InstructionVariant instructionVariant)
@@ -47,9 +54,7 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 		{
 			if (!first)
 				name+=" "
-			name += operand.name
-			if (operand.width > 0)
-				name += "(" + operand.width + ")"  
+			name += operand.addressingMode.name
 			first = false
 		}
 		return name

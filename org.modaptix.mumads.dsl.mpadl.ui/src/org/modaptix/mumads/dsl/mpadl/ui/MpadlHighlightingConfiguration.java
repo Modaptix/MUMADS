@@ -1,61 +1,67 @@
 package org.modaptix.mumads.dsl.mpadl.ui;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.*;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
+import org.modaptix.xtext.expressions.ui.ArithmeticExpressionHighlightingConfiguration;
 
-public class MpadlHighlightingConfiguration extends DefaultHighlightingConfiguration
+public class MpadlHighlightingConfiguration extends ArithmeticExpressionHighlightingConfiguration
 {
 	// Provide ID strings for the highlighting calculator
-	public static final String BINNUM_ID = "binnum";
-	public static final String DECNUM_ID = "decnum";
-	public static final String HEXNUM_ID = "hexnum";
-	public static final String REGISTER_ID = "register";
+	public static final String REGISTER_REAL_ID = "reg_real";
+	public static final String REGISTER_MMAP_ID = "reg_mmap";
+	public static final String REGISTER_INDX_ID = "reg_indx"; 
+	public static final String REGISTER_FLAG_ID = "reg_flag";
 	public static final String ADDRMODE_ID = "addrmode";
+	public static final String INSTRUCTION_ID = "instruction";
 		
 	@Override
 	public void configure(IHighlightingConfigurationAcceptor acceptor)
 	{
-		acceptor.acceptDefaultHighlighting(DEFAULT_ID, "Default text", defaultTextStyle());
-		acceptor.acceptDefaultHighlighting(COMMENT_ID, "Comments", commentTextStyle());
-		acceptor.acceptDefaultHighlighting(INVALID_TOKEN_ID, "Invalid token", invalidTokenTextStyle());
-		acceptor.acceptDefaultHighlighting(KEYWORD_ID, "Keyword", keywordTextStyle());
-		acceptor.acceptDefaultHighlighting(NUMBER_ID, "Number", numberTextStyle());
-		acceptor.acceptDefaultHighlighting(PUNCTUATION_ID, "Punctuation", punctuationTextStyle());
-		acceptor.acceptDefaultHighlighting(STRING_ID, "Text String", stringTextStyle());
+		super.configure(acceptor);
 		
-		acceptor.acceptDefaultHighlighting(BINNUM_ID, "Binary number", binaryNumberTextStyle());
-		acceptor.acceptDefaultHighlighting(DECNUM_ID, "Decimal number", decimalNumberTextStyle());
-		acceptor.acceptDefaultHighlighting(HEXNUM_ID, "Hexadecimal number", hexadecimalNumberTextStyle());
-		acceptor.acceptDefaultHighlighting(REGISTER_ID, "Register name", registerNameTextStyle());
+		acceptor.acceptDefaultHighlighting(REGISTER_REAL_ID, "Register name (real)", registerRealTextStyle());
+		acceptor.acceptDefaultHighlighting(REGISTER_MMAP_ID, "Register name (memory mapped)", registerMmapTextStyle());
+		acceptor.acceptDefaultHighlighting(REGISTER_INDX_ID, "Register name (index)", registerIndxTextStyle());
+		acceptor.acceptDefaultHighlighting(REGISTER_FLAG_ID, "Register name (flag)", registerFlagTextStyle());
 		acceptor.acceptDefaultHighlighting(ADDRMODE_ID, "Addressing mode", addressingModeTextStyle());
+		acceptor.acceptDefaultHighlighting(INSTRUCTION_ID, "Instruction mnemonic", instructionMnemonicTextStyle());
 	}
 
-	protected TextStyle binaryNumberTextStyle()
+	protected TextStyle instructionMnemonicTextStyle()
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(250, 0, 0));
+		textStyle.setColor(new RGB(100, 100, 0));
+		textStyle.setStyle(SWT.BOLD);
 		return textStyle;
 	}
 
-	protected TextStyle decimalNumberTextStyle()
+	protected TextStyle registerRealTextStyle()
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(0, 130, 0));
+		textStyle.setColor(new RGB(100, 0, 0));
 		return textStyle;
 	}
 
-	protected TextStyle hexadecimalNumberTextStyle()
+	protected TextStyle registerMmapTextStyle()
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(0, 0, 255));
+		textStyle.setColor(new RGB(0, 100, 0));
 		return textStyle;
 	}
 
-	protected TextStyle registerNameTextStyle()
+	protected TextStyle registerIndxTextStyle()
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(0, 130, 175));
+		textStyle.setColor(new RGB(0, 0, 100));
+		return textStyle;
+	}
+
+	protected TextStyle registerFlagTextStyle()
+	{
+		TextStyle textStyle = defaultTextStyle().copy();
+		textStyle.setColor(new RGB(0, 100, 100));
 		return textStyle;
 	}
 
@@ -63,13 +69,6 @@ public class MpadlHighlightingConfiguration extends DefaultHighlightingConfigura
 	{
 		TextStyle textStyle = defaultTextStyle().copy();
 		textStyle.setColor(new RGB(0, 175, 130));
-		return textStyle;
-	}
-
-	protected TextStyle invalidTokenTextStyle()
-	{
-		TextStyle textStyle = defaultTextStyle().copy();
-		textStyle.setBackgroundColor(new RGB(255, 0, 0));
 		return textStyle;
 	}
 }

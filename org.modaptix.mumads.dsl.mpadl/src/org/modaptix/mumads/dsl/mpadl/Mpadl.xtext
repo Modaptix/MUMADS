@@ -13,11 +13,11 @@ Mpadl:
 	'architecture' name=STRING '{'
 	
 		'registers' '{'
-			registers+=RegisterOrFlag+
+			registers+=RegisterOrFlag (',' registers+=RegisterOrFlag)*
 		'}'
 		
 		'addressing_modes' '{' 
-			addressingModes+=AddressingMode+
+			addressingModes+=AddressingMode (',' addressingModes+=AddressingMode)*
 		'}'
 		
 		'interrupt_type'
@@ -38,13 +38,13 @@ RegisterOrFlag:
 ;
 
 RegisterIndexable:
-	RegisterPhysical | RegisterMmap	
+	RegisterReal | RegisterMmap	
 ;
 
-RegisterPhysical:
-	'physical'
+RegisterReal:
+	'real'
 	name=ID
-	('[' index=[RegisterPhysical] ']')?
+	('[' index=[RegisterIndexable] ']')?
 	'(' size=INT ')'	
 ;
 
@@ -62,7 +62,23 @@ RegisterFlag:
 ;
 
 AddressingMode:
-	name=ID
+	AddressingModeWithSize | AddressingModeIndexed
+;
+
+AddressingModeWithSize:
+	AddressingModeImmediate | AddressingModeAddress
+;
+
+AddressingModeImmediate:
+	'immediate' longName=STRING name=ID size=INT
+;
+
+AddressingModeAddress:
+	'address' longName=STRING name=ID size=INT
+;
+
+AddressingModeIndexed:
+	'indexed' longName=STRING name=ID 
 ;
 
 InterruptMode:
@@ -99,10 +115,9 @@ InstructionVariant:
 ;
 
 Operand:
-	name=OPERAND_TYPE ('(' width=INT ')')?
+	addressingMode=[AddressingMode]
 ;
 
-enum OPERAND_TYPE: IMMEDIATE='i' | ADDRESS='a' | RELATIVE_ADDRESS='r' | NUMERIC_CONSTANT='c';
 enum INTERRUPT_TYPE: REAL='real' | WAIT='simulated';
 
 terminal EOL: ('\r'? '\n')+;

@@ -5,16 +5,16 @@ package org.modaptix.mumads.dsl.mpadl;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
-import org.modaptix.xtext.expressions.TerminalConverters;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
-public class MpadlRuntimeModule extends org.modaptix.mumads.dsl.mpadl.AbstractMpadlRuntimeModule {
+public class MpadlRuntimeModule extends org.modaptix.mumads.dsl.mpadl.AbstractMpadlRuntimeModule
+{
 	@Override
 	public Class<? extends IValueConverterService> bindIValueConverterService()
 	{
-		return TerminalConverters.class;
+		return MpadlTerminalConverters.class;
 	}
 	
 	@Override
