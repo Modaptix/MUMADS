@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="mumadsnature"
+         name="MUMADS nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.modaptix.mumads.project.Nature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="org.modaptix.mumads.project.addNatureCommand"
+            name="Add MUMADS nature">
+      </command>
+      <command
+            id="org.modaptix.mumads.project.removeNatureCommand"
+            name="Remove MUMADS nature">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.modaptix.mumads.project.AddNatureHandler"
+            commandId="org.modaptix.mumads.project.addNatureCommand">
+      </handler>
+      <handler
+            class="org.modaptix.mumads.project.RemoveNatureHandler"
+            commandId="org.modaptix.mumads.project.removeNatureCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.projectConfigure">
+         <command
+               commandId="org.modaptix.mumads.project.removeNatureCommand"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="org.modaptix.mumads.mumadsnature">
+                  </test>
+               </iterate>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.modaptix.mumads.project.addNatureCommand"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false"><not>
+                                       
+               <iterate operator="or" ifEmpty="false">
+<test property="org.eclipse.core.resources.projectNature"
+value="org.modaptix.mumads.mumadsnature">
+</test>
+</iterate> 
+</not>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/8x8/mumads.png"
+            id="org.modaptix.mumads.mumadsnature.image"
+            natureId="org.modaptix.mumads.mumadsnature">
+      </image>
+   </extension>
+
+</plugin>
