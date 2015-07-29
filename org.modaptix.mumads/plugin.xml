@@ -34,6 +34,20 @@
       </handler>
    </extension>
    <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.modaptix.mumads.project.hasNature">
+         <iterate
+               ifEmpty="false"
+               operator="or">
+            <test
+                  property="org.eclipse.core.resources.projectNature"
+                  value="org.modaptix.mumads.mumadsnature">
+            </test>
+         </iterate>
+      </definition>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
@@ -43,14 +57,9 @@
                style="push">
             <visibleWhen
                   checkEnabled="false">
-               <iterate
-                     ifEmpty="false"
-                     operator="or">
-                  <test
-                        property="org.eclipse.core.resources.projectNature"
-                        value="org.modaptix.mumads.mumadsnature">
-                  </test>
-               </iterate>
+               <reference
+                     definitionId="org.modaptix.mumads.project.hasNature">
+               </reference>
             </visibleWhen>
          </command>
          <command
@@ -58,12 +67,10 @@
                style="push">
             <visibleWhen
                   checkEnabled="false"><not>
+                                          <reference
+                                                definitionId="org.modaptix.mumads.project.hasNature">
+                                          </reference>
                                        
-               <iterate operator="or" ifEmpty="false">
-<test property="org.eclipse.core.resources.projectNature"
-value="org.modaptix.mumads.mumadsnature">
-</test>
-</iterate> 
 </not>
             </visibleWhen>
          </command>
