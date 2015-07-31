@@ -84,5 +84,32 @@
             natureId="org.modaptix.mumads.mumadsnature">
       </image>
    </extension>
+   <extension
+         id="projectNature"
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.modaptix.mumads.project.PropertyPageMain"
+            id="org.modaptix.mumads.project.propertypages.main"
+            name="MUMADS">
+         <filter
+               name="projectNature"
+               value="org.modaptix.mumads.mumadsnature">
+         </filter>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.modaptix.mumads.wizards"
+            name="MUMADS">
+      </category>
+      <wizard
+            category="org.modaptix.mumads.wizards"
+            class="org.modaptix.mumads.project.NewProjectWizard"
+            id="org.modaptix.mumads.wizard.newproject"
+            name="MUMADS project"
+            project="true">
+      </wizard>
+   </extension>
 
 </plugin>
