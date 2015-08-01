@@ -16,7 +16,7 @@ Asm:
 ;
 
 Instruction:
-	Import | MacroDefinition | ArchInstruction
+	Import | MacroDefinition | InternalInstruction | ArchInstructionOrMacro
 ;
 
 Import:
@@ -29,8 +29,24 @@ MacroDefinition:
 	WS ('ENDM'|'endm')
 ;
 
-ArchInstruction:
-	(name=ID)? WS mnemonic=ID ('.' variant=ID)? (WS operands+=Operand (COMMA operands+=Operand)* )?	
+InternalInstruction:
+	InternalInstructionEqu | InternalInstructionOrg | InternalInstructionDs
+;
+
+InternalInstructionEqu:
+	name=ID WS ('equ'|'EQU') WS value = IntegerExpression
+;
+
+InternalInstructionOrg:
+	WS ('org'|'ORG') WS address = IntegerExpression
+;
+
+InternalInstructionDs:
+	name=ID WS ('ds'|'DS') ('.' variant=ID)? WS value = IntegerExpression
+;
+
+ArchInstructionOrMacro:
+	(name=ID)? WS mnemonic=ID (WS operands+=Operand (COMMA operands+=Operand)* )?	
 ;
 
 Operand:

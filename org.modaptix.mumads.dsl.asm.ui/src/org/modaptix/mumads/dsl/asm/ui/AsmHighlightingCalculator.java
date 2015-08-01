@@ -6,14 +6,14 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.impl.KeywordImpl;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
-import org.modaptix.mumads.dsl.asm.asm.ArchInstruction;
+import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro;
 import org.modaptix.mumads.dsl.asm.asm.MacroDefinition;
 import org.modaptix.mumads.dsl.asm.asm.NamedReference;
 import org.modaptix.xtext.util.PolymorphicSemanticHighlightingCalculator;
 
 public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCalculator
 {
-	protected void highlight(ArchInstruction semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(ArchInstructionOrMacro semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
 		final String featureName = assignment.getFeature();
 		
