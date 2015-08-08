@@ -5,7 +5,8 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.modaptix.mumads.dsl.asm; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext;visibility:=reexport,
+Require-Bundle: org.eclipse.equinox.ds;bundle-version="1.4.300",
+ org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.xbase;resolution:=optional;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
@@ -21,19 +22,23 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.common.types,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
  org.modaptix.xtext.expressions,
- org.modaptix.mumads.dsl.mpadl;bundle-version="1.0.0"
+ org.modaptix.mumads.dsl.mpadl;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.10.0",
+ org.eclipse.e4.core.contexts,
+ org.eclipse.e4.core.di;bundle-version="1.5.0"
 Import-Package: org.apache.log4j,
- org.modaptix.xtext.expressions
+ org.modaptix.xtext.expressions,
+ org.osgi.framework;version="1.8.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.modaptix.mumads.dsl.asm,
- org.modaptix.mumads.dsl.asm.services,
  org.modaptix.mumads.dsl.asm.asm,
  org.modaptix.mumads.dsl.asm.asm.impl,
  org.modaptix.mumads.dsl.asm.asm.util,
- org.modaptix.mumads.dsl.asm.serializer,
+ org.modaptix.mumads.dsl.asm.formatting,
+ org.modaptix.mumads.dsl.asm.generator,
  org.modaptix.mumads.dsl.asm.parser.antlr,
  org.modaptix.mumads.dsl.asm.parser.antlr.internal,
- org.modaptix.mumads.dsl.asm.validation,
  org.modaptix.mumads.dsl.asm.scoping,
- org.modaptix.mumads.dsl.asm.generator,
- org.modaptix.mumads.dsl.asm.formatting
+ org.modaptix.mumads.dsl.asm.serializer,
+ org.modaptix.mumads.dsl.asm.services,
+ org.modaptix.mumads.dsl.asm.validation

@@ -5,15 +5,36 @@ Bundle-SymbolicName: org.modaptix.mumads;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Modaptix
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ActivationPolicy: lazy
-Require-Bundle: org.modaptix.mumads.dsl.asm;bundle-version="1.0.0",
+Bundle-Activator: org.modaptix.mumads.context.Activator
+Require-Bundle: org.modaptix.mumads.dsl.mpadl;bundle-version="1.0.0",
+ org.modaptix.mumads.dsl.asm;bundle-version="1.0.0",
  org.modaptix.mumads.dsl.asm.ui;bundle-version="1.0.0",
  org.modaptix.mumads.dsl.mcudl;bundle-version="1.0.0",
- org.modaptix.mumads.dsl.mpadl;bundle-version="1.0.0",
  org.modaptix.xtext.expressions;bundle-version="1.0.0",
  org.eclipse.core.expressions;bundle-version="3.5.0",
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
+ org.eclipse.e4.core.contexts;bundle-version="1.4.0",
  org.eclipse.ui.ide,
- org.eclipse.ui
+ org.eclipse.ui,
+ org.eclipse.swt,
+ org.eclipse.e4.core.di;bundle-version="1.5.0",
+ org.eclipse.xtext.ui
 Import-Package: org.apache.commons.lang3
+Bundle-ActivationPolicy: lazy
+Export-Package: org.modaptix.mumads.context;
+  uses:="org.eclipse.e4.core.contexts,
+   org.eclipse.ui.plugin,
+   org.osgi.framework,
+   org.eclipse.xtext.ui.guice,
+   com.google.inject",
+ org.modaptix.mumads.project;
+  uses:="org.eclipse.jface.wizard,
+   org.eclipse.core.runtime,
+   org.eclipse.ui,
+   org.eclipse.core.resources,
+   org.modaptix.mumads.dsl.mpadl.util.filelocator,
+   org.eclipse.jface.viewers,
+   org.eclipse.ui.dialogs,
+   org.eclipse.core.commands,
+   org.eclipse.swt.widgets"

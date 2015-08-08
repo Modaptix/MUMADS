@@ -10,9 +10,12 @@ import org.modaptix.xtext.expressions.TerminalConverters;
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
  */
-public class AsmRuntimeModule extends
-		org.modaptix.mumads.dsl.asm.AbstractAsmRuntimeModule
+public class AsmRuntimeModule extends org.modaptix.mumads.dsl.asm.AbstractAsmRuntimeModule
 {
+	//public Class<? extends IMpadlLocator> bindIMpadlLocator() {
+	//	return MpadlLocator.class;
+	//}
+	
 	@Override
 	public Class<? extends IValueConverterService> bindIValueConverterService()
 	{
