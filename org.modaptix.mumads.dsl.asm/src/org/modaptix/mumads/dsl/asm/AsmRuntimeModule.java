@@ -4,6 +4,8 @@
 package org.modaptix.mumads.dsl.asm;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.modaptix.mumads.dsl.mpadl.util.filelocator.MumadsProjectPreferences;
+import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMumadsProjectPreferences;
 import org.modaptix.xtext.expressions.TerminalConverters;
 
 /**
@@ -15,6 +17,11 @@ public class AsmRuntimeModule extends org.modaptix.mumads.dsl.asm.AbstractAsmRun
 	//public Class<? extends IMpadlLocator> bindIMpadlLocator() {
 	//	return MpadlLocator.class;
 	//}
+	
+	public Class<? extends IMumadsProjectPreferences> bindIMumadsProjectPreferences()
+	{
+		return MumadsProjectPreferences.class;
+	}
 	
 	@Override
 	public Class<? extends IValueConverterService> bindIValueConverterService()

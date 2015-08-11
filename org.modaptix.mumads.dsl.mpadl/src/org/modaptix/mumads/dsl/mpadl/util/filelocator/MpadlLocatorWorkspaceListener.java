@@ -35,7 +35,8 @@ public class MpadlLocatorWorkspaceListener implements IResourceChangeListener, I
 	{
 		// Check that the resource has the correct file extension.
 		IResource res = delta.getResource();
-		if (!res.getFileExtension().equals("mpadl"))
+		if ((res == null) || (res.getFileExtension() == null) || 
+				(!res.getFileExtension().equalsIgnoreCase("mpadl")))
 			return true;
 
 		switch (delta.getKind()) {

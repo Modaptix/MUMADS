@@ -9,22 +9,35 @@ import java.util.Vector;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.ui.resource.XtextResourceSetProvider;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.modaptix.mumads.dsl.mpadl.mpadl.Mpadl;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMpadlLocator;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMpadlLocatorVisitor;
+import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMumadsProjectPreferences;
 
 @Singleton
 public class MpadlLocator implements IMpadlLocator
 {
+	@Inject
+	protected IMumadsProjectPreferences projectPrefs;
+	
+	@Inject
+	protected XtextResourceSetProvider resourceSetProvider;
+	
 	// Map keyed on arch name containing a map keyed on project name containing
 	// a list of the path(s) to the .mpadl file(s) contained in the workspace.
 	protected Map<String, Map<String, List<String>>> fileResources;
@@ -97,7 +110,8 @@ public class MpadlLocator implements IMpadlLocator
 	{
 		// Check that we got a resource and that it at least has the
 		// correct file extension.
-		if ((res == null) || (!res.getFileExtension().equals("mpadl")))
+		if ((res == null) || (res.getFileExtension() == null) || 
+				(!res.getFileExtension().equalsIgnoreCase("mpadl")))
 			return;
 		
 		// Get the arch name associated with this resource
@@ -173,5 +187,31 @@ public class MpadlLocator implements IMpadlLocator
 				}
 			}
 		};
+	}
+
+	public Mpadl getDefaultMpadlForProject(final String projectName)
+	{
+		// Get the path to the default mpadl file for this project.
+		String mpadlPath = projectPrefs.getDefaultMpadlPath(projectName);
+		if (mpadlPath == null)
+		{
+			System.out.println("MpadlLocator::getDefaultMpadlForProject - mpadlPath == null");
+			return null;
+		}
+		
+		// Look up the Mpadl object in the map and if it isn't in there
+		// create it and add it.
+		Mpadl mpadl = mpadlResources.get(mpadlPath); 
+		if (mpadl != null)
+			return mpadl;
+		
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		XtextResourceSet resourceSet = (XtextResourceSet) resourceSetProvider.get(project);
+		Resource resource = resourceSet.getResource(URI.createURI(mpadlPath), true);
+		
+		mpadl = (Mpadl) resource.getContents().get(0);
+		mpadlResources.put(mpadlPath, mpadl);
+		
+		return mpadl; 
 	}
 }

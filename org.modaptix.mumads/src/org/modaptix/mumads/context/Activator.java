@@ -27,7 +27,7 @@ public class Activator extends AbstractUIPlugin
 	{
 		super.start(context);
 		plugin = this;
-		injector = AsmActivator.getInstance().getInjector(AsmActivator.ORG_MODAPTIX_MUMADS_DSL_ASM_ASM);
+		injector = AsmActivator.getInstance().getInjector(AsmActivator.ORG_MODAPTIX_MUMADS_DSL_ASM_ASM).createChildInjector();
 	}
 
 	public Injector getInjector()

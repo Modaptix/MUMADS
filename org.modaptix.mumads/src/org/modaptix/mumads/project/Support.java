@@ -13,6 +13,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.xtext.ui.XtextProjectHelper;
 
 public class Support
 {
@@ -97,11 +98,11 @@ public class Support
 		{
 			IProjectDescription description = project.getDescription();
 			String[] natures = description.getNatureIds();
-			String[] newNatures = new String[natures.length + 1];
+			String[] newNatures = new String[natures.length + 2];
 			System.arraycopy(natures, 0, newNatures, 0, natures.length);
 
-			// add our new "com.example.project.examplenature" id
 			newNatures[natures.length] = Nature.NATURE_ID;
+			newNatures[natures.length+1] = XtextProjectHelper.NATURE_ID;
 
 			// validate the natures
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
