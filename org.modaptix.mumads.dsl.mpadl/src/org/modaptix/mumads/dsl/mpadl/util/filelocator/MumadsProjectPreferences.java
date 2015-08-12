@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.emf.common.util.URI;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMumadsProjectPreferences;
 
 import com.google.inject.Singleton;
@@ -29,12 +30,12 @@ public class MumadsProjectPreferences implements IMumadsProjectPreferences
 		projectDefaultMpadl = Collections.synchronizedMap(new HashMap<String, String>());
 	}
 	
-	public String getDefaultMpadlPath(final String projectName)
+	public URI getDefaultMpadlPath(final String projectName)
 	{
 		// Try to find the path to the default mpadl file in the map.
 		String mpadlPath = projectDefaultMpadl.get(projectName);
 		if (mpadlPath != null)
-			return mpadlPath;
+			return null;
 		
 		// We didn't find it in the map so we need to get it from the project preferences.
 		// Get the properties from the project.
@@ -46,9 +47,9 @@ public class MumadsProjectPreferences implements IMumadsProjectPreferences
 
 	    // Construct a new resource URI
 	    if ("Project".equals(sourceType))
-	    	return "platform:/resource/" + sourcePloc + "/" + sourcePath;
+	    	return URI.createURI("platform:/resource/" + sourcePloc + "/" + sourcePath);
 	    else if ("Plugin".equals(sourceType))
-	    	return "platform:/plugin/" + sourcePloc + "/" + sourcePath;
+	    	return URI.createURI("platform:/plugin/" + sourcePloc + "/" + sourcePath);
 
 	    // We still didn't find it!
 		return null;

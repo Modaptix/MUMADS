@@ -1,11 +1,7 @@
 package org.modaptix.mumads.dsl.asm.validation
 
-import com.google.inject.Inject
-import org.eclipse.xtext.validation.Check
-import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro
-import org.modaptix.mumads.dsl.asm.asm.AsmPackage
-import org.modaptix.mumads.dsl.mpadl.mpadl.Mpadl
-import org.modaptix.mumads.dsl.mpadl.util.filelocator.MpadlLocator
+//import org.eclipse.xtext.validation.Check
+//import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro
 
 /**
  * Custom validation rules. 
@@ -16,12 +12,10 @@ class AsmValidator extends AbstractAsmValidator
 {
 	public static val INVALID_INSTRUCTION = 'invalidInstruction'
 	
-	@Inject protected MpadlLocator ml;
-	
-	@Check
+	/*@Check
 	def checkArchInstruction(ArchInstructionOrMacro archInstruction)
 	{
-		/*try
+		try
 		{
 			// First we need to get the default Mpadl object associated with this project.
 			val String pURI = archInstruction.eResource.URI.toPlatformString(true)
@@ -53,6 +47,6 @@ class AsmValidator extends AbstractAsmValidator
 		catch (Exception e)
 		{
 			e.printStackTrace()
-		}*/
-	}
+		}
+	}*/
 }

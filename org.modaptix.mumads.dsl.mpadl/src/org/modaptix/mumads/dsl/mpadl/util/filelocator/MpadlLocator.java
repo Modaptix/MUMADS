@@ -9,7 +9,6 @@ import java.util.Vector;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -18,16 +17,13 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.ui.resource.XtextResourceSetProvider;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import org.modaptix.mumads.dsl.mpadl.mpadl.Mpadl;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMpadlLocator;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMpadlLocatorVisitor;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMumadsProjectPreferences;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @Singleton
 public class MpadlLocator implements IMpadlLocator
@@ -46,9 +42,6 @@ public class MpadlLocator implements IMpadlLocator
 	// a list of the path(s) to the .mpadl file(s) provided by plug-ins.
 	protected Map<String, Map<String, List<String>>> pluginResources;
 	
-	// Map keyed on path containing an Mpadl object.
-	protected Map<String, Mpadl> mpadlResources;
-	
 	public MpadlLocator()
 	{
 		System.out.println("MpadlLocator::MpadlLocator() @" + this);
@@ -57,7 +50,6 @@ public class MpadlLocator implements IMpadlLocator
 		{
 			fileResources = Collections.synchronizedMap(new HashMap<String, Map<String, List<String>>>());
 			pluginResources = Collections.synchronizedMap(new HashMap<String, Map<String, List<String>>>());
-			mpadlResources = Collections.synchronizedMap(new HashMap<String, Mpadl>());
 	
 			// Register an IResourceChangeListener for POST_CHANGE events
 			// so we can track new and deleted files.
@@ -189,29 +181,12 @@ public class MpadlLocator implements IMpadlLocator
 		};
 	}
 
-	public Mpadl getDefaultMpadlForProject(final String projectName)
+	public URI getDefaultMpadlURIForResource(Resource resource)
 	{
+		String pURI = resource.getURI().toPlatformString(true);
+		String proj = pURI.substring(1, pURI.indexOf("/", 1));
+		
 		// Get the path to the default mpadl file for this project.
-		String mpadlPath = projectPrefs.getDefaultMpadlPath(projectName);
-		if (mpadlPath == null)
-		{
-			System.out.println("MpadlLocator::getDefaultMpadlForProject - mpadlPath == null");
-			return null;
-		}
-		
-		// Look up the Mpadl object in the map and if it isn't in there
-		// create it and add it.
-		Mpadl mpadl = mpadlResources.get(mpadlPath); 
-		if (mpadl != null)
-			return mpadl;
-		
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		XtextResourceSet resourceSet = (XtextResourceSet) resourceSetProvider.get(project);
-		Resource resource = resourceSet.getResource(URI.createURI(mpadlPath), true);
-		
-		mpadl = (Mpadl) resource.getContents().get(0);
-		mpadlResources.put(mpadlPath, mpadl);
-		
-		return mpadl; 
+		return projectPrefs.getDefaultMpadlPath(proj);
 	}
 }

@@ -1,6 +1,8 @@
 package org.modaptix.mumads.dsl.mpadl.util.interfaces;
 
+import org.eclipse.emf.common.util.URI;
+
 public interface IMumadsProjectPreferences
 {
-	public String getDefaultMpadlPath(final String projectName);
+	public URI getDefaultMpadlPath(final String projectName);
 }
