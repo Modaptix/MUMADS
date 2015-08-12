@@ -34,7 +34,7 @@ Mpadl:
 ;
 
 RegisterOrFlag:
-	RegisterIndexable | RegisterFlag
+	RegisterIndexable | RegisterIndexed | RegisterFlag
 ;
 
 RegisterIndexable:
@@ -44,14 +44,31 @@ RegisterIndexable:
 RegisterReal:
 	'real'
 	name=ID
-	('[' index=[RegisterIndexable] ']')?
 	'(' size=INT ')'	
 ;
 
 RegisterMmap:
 	'mmap'
 	name=ID
-	('[' index=[RegisterIndexable] ']')?
+	'(' size=INT ')'	
+	address=HEX	
+;
+
+RegisterIndexed:
+	RegisterRealIndexed | RegisterMmapIndexed	
+;
+
+RegisterRealIndexed:
+	'real'
+	name=ID
+	'[' index=[RegisterIndexable] ']'
+	'(' size=INT ')'	
+;
+
+RegisterMmapIndexed:
+	'mmap'
+	name=ID
+	'[' index=[RegisterIndexable] ']'
 	'(' size=INT ')'	
 	address=HEX	
 ;

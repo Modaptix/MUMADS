@@ -11,6 +11,7 @@ import org.modaptix.mumads.dsl.mpadl.mpadl.Operand
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable
 import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingMode
 import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeWithSize
+import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexed
 
 /**
  * Provides labels for a EObjects.
@@ -25,6 +26,15 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 	}
 
 	def text(RegisterIndexable register)
+	{
+		var String name = register.getName()
+		
+		name += " (" + register.size + " bits)";
+					
+		return name;
+	}
+
+	def text(RegisterIndexed register)
 	{
 		var String name = register.getName()
 		
