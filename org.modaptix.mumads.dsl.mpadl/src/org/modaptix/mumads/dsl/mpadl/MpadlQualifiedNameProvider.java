@@ -1,12 +1,16 @@
 package org.modaptix.mumads.dsl.mpadl;
 
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
-/*import org.eclipse.xtext.naming.QualifiedName;
-import org.modaptix.mpadl.mpadl.RegisterMmap;
-import org.modaptix.mpadl.mpadl.RegisterPhysical;*/
+import org.eclipse.xtext.naming.QualifiedName;
+import org.modaptix.mumads.dsl.mpadl.mpadl.Instruction;
 
 public class MpadlQualifiedNameProvider extends	DefaultDeclarativeQualifiedNameProvider
 {
+	protected QualifiedName qualifiedName(Instruction instruction)
+	{
+		return QualifiedName.create(instruction.getName());
+	}
+	
 	/*protected QualifiedName qualifiedName(RegisterPhysical register)
 	{
 		if (register.getIndex() != null)

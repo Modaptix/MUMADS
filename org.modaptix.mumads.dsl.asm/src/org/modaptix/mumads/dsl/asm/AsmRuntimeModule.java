@@ -4,9 +4,11 @@
 package org.modaptix.mumads.dsl.asm;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.scoping.IGlobalScopeProvider;
+import org.modaptix.mumads.dsl.asm.scoping.AsmImportURIGlobalScopeProvider;
+import org.modaptix.mumads.dsl.mpadl.MpadlTerminalConverters;
 import org.modaptix.mumads.dsl.mpadl.util.filelocator.MumadsProjectPreferences;
 import org.modaptix.mumads.dsl.mpadl.util.interfaces.IMumadsProjectPreferences;
-import org.modaptix.xtext.expressions.TerminalConverters;
 
 /**
  * Use this class to register components to be used at runtime / without the
@@ -24,8 +26,14 @@ public class AsmRuntimeModule extends org.modaptix.mumads.dsl.asm.AbstractAsmRun
 	}
 	
 	@Override
+	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider()
+	{
+	    return AsmImportURIGlobalScopeProvider.class;
+	}
+	
+	@Override
 	public Class<? extends IValueConverterService> bindIValueConverterService()
 	{
-		return TerminalConverters.class;
+		return MpadlTerminalConverters.class;
 	}
 }

@@ -21,7 +21,7 @@ class AsmValidator extends AbstractAsmValidator
 	@Check
 	def checkArchInstruction(ArchInstructionOrMacro archInstruction)
 	{
-		try
+		/*try
 		{
 			// First we need to get the default Mpadl object associated with this project.
 			val String pURI = archInstruction.eResource.URI.toPlatformString(true)
@@ -37,9 +37,12 @@ class AsmValidator extends AbstractAsmValidator
 			}
 			
 			// Second we can check that this instruction at least exists.
-			if (mpadl.instructionSet.findFirst[name.equals(archInstruction.mnemonic)] == null)
+			val instruction = mpadl.instructionSet.findFirst[name.equals(archInstruction.mnemonic)] == null
+			if (!instruction)
 			{
-				// TODO: It could be a macro!
+				// It could still be a macro!
+				//val macro =  
+				
 				error('Not a recognised instruction or macro name',
 					AsmPackage.Literals.ARCH_INSTRUCTION_OR_MACRO__MNEMONIC, INVALID_INSTRUCTION)
 				return
@@ -50,6 +53,6 @@ class AsmValidator extends AbstractAsmValidator
 		catch (Exception e)
 		{
 			e.printStackTrace()
-		}
+		}*/
 	}
 }

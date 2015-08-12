@@ -20,7 +20,8 @@ Require-Bundle: org.modaptix.mumads.dsl.asm;visibility:=reexport,
  org.modaptix.xtext.expressions,
  org.modaptix.xtext.expressions.ui,
  org.apache.commons.lang3,
- org.modaptix.xtext.util
+ org.modaptix.xtext.util,
+ org.eclipse.xtext
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.modaptix.mumads.dsl.asm.ui.quickfix,
