@@ -1,4 +1,4 @@
-package org.modaptix.mumads.dsl.asm.ui;
+package org.modaptix.mumads.dsl.asm.ui.highlighting;
 
 import org.modaptix.xtext.expressions.ui.ArithmeticExpressionAntlrTokenToAttributeIdMapper;
 

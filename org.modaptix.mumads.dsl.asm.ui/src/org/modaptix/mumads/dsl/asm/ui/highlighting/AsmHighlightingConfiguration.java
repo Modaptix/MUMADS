@@ -1,4 +1,4 @@
-package org.modaptix.mumads.dsl.asm.ui;
+package org.modaptix.mumads.dsl.asm.ui.highlighting;
 
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.*;

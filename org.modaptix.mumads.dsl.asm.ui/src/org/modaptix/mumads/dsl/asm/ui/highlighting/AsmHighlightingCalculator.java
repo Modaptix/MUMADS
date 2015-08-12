@@ -1,4 +1,4 @@
-package org.modaptix.mumads.dsl.asm.ui;
+package org.modaptix.mumads.dsl.asm.ui.highlighting;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Assignment;
