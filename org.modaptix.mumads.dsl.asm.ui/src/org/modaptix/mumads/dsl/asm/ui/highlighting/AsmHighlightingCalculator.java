@@ -8,8 +8,12 @@ import org.eclipse.xtext.impl.KeywordImpl;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro;
+import org.modaptix.mumads.dsl.asm.asm.InternalInstructionDs;
+import org.modaptix.mumads.dsl.asm.asm.InternalInstructionEqu;
 import org.modaptix.mumads.dsl.asm.asm.MacroDefinition;
 import org.modaptix.mumads.dsl.asm.asm.NamedReference;
+import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable;
+import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexed;
 import org.modaptix.xtext.util.PolymorphicSemanticHighlightingCalculator;
 
 public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCalculator
@@ -25,20 +29,30 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 		}
 	}
 	
-	protected void highlight(ArchInstructionOrMacro semanticElement, CrossReference crossReference, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(ArchInstructionOrMacro aiomr, CrossReference crossReference, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
 		final String featureName = assignment.getFeature();
 		
 		if (featureName.equals("mnemonic"))
 		{
-			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.KEYWORD_ID);
-			return;
+			if (aiomr.getMnemonic() instanceof MacroDefinition)
+				acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.MACRO_CALL_ID);
+			else
+				acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.KEYWORD_ID);
 		}
 	}
 			
-	protected void highlight(NamedReference semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(NamedReference namedReference, CrossReference crossReference, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
-		acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.REGISTER_ID);
+		if ((namedReference.getTarget() instanceof RegisterIndexable) ||
+			(namedReference.getTarget() instanceof RegisterIndexed))
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.REGISTER_ID);
+		else if (namedReference.getTarget() instanceof ArchInstructionOrMacro)
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.LABEL_ID);
+		else if (namedReference.getTarget() instanceof InternalInstructionEqu)
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.EQUATE_ID);
+		else if (namedReference.getTarget() instanceof InternalInstructionDs)
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.DS_ID);
 	}
 	
 	protected void highlight(MacroDefinition semanticElement, KeywordImpl grammarElement, EObject grammarElementContainer, INode node, IHighlightedPositionAcceptor acceptor)
@@ -48,11 +62,42 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 	
 	protected void highlight(MacroDefinition semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
+		if (assignment == null)
+			return;
+		
 		final String featureName = assignment.getFeature();
 		
 		if (featureName.equals("name"))
 		{
-			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.MACRO_ID);
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.MACRO_NAME_ID);
+			return;
+		}
+	}
+	
+	protected void highlight(InternalInstructionEqu semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	{
+		if (assignment == null)
+			return;
+		
+		final String featureName = assignment.getFeature();
+		
+		if (featureName.equals("name"))
+		{
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.EQUATE_ID);
+			return;
+		}
+	}
+	
+	protected void highlight(InternalInstructionDs semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	{
+		if (assignment == null)
+			return;
+		
+		final String featureName = assignment.getFeature();
+		
+		if (featureName.equals("name"))
+		{
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.DS_ID);
 			return;
 		}
 	}

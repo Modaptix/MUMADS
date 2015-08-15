@@ -60,10 +60,10 @@ IntegerLiteralOrReference returns arithmeticExpression::IntegerExpression:
 ;
 
 NamedReference:
-	target=NamedReferenceName
+	target=[mpadl::Instruction|RegisterID]	//NamedReferenceName
 ;
 
-NamedReferenceName returns ecore::EString:
+RegisterID returns ecore::EString:
 	ID ( '[' ID ']' )?
 ;
 

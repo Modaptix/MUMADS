@@ -33,7 +33,7 @@ class MpadlOutlineTreeProvider extends DefaultOutlineTreeProvider
 		for (node : rootElement.instructionSet)
 			createNode(temp, node)
 			
-	}	
+	}
 	
 	def _isLeaf(InstructionVariant instructionVariant)
 	{

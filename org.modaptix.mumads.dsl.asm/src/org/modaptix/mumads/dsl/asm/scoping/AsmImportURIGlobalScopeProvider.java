@@ -17,7 +17,11 @@ public class AsmImportURIGlobalScopeProvider extends ImportUriGlobalScopeProvide
 	protected LinkedHashSet<URI> getImportedUris(Resource resource)
 	{
 		LinkedHashSet<URI> importedURIs = super.getImportedUris(resource);
-		importedURIs.add(ml.getDefaultMpadlURIForResource(resource));
+		
+		URI mpadlURI = ml.getDefaultMpadlURIForResource(resource);
+		if (mpadlURI != null)
+			importedURIs.add(mpadlURI);
+		
 		return importedURIs;
 	}
 }

@@ -33,7 +33,7 @@ Mpadl:
 	'}'
 ;
 
-RegisterOrFlag:
+RegisterOrFlag returns Instruction:
 	RegisterIndexable | RegisterIndexed | RegisterFlag
 ;
 
