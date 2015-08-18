@@ -1,17 +1,17 @@
 package org.modaptix.mumads.dsl.asm.validation
 
-import java.util.List
 import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro
 import org.modaptix.mumads.dsl.asm.asm.AsmPackage
+import org.modaptix.mumads.dsl.asm.asm.NamedReference
 import org.modaptix.mumads.dsl.asm.asm.Operand
 import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeAddress
 import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeImmediate
 import org.modaptix.mumads.dsl.mpadl.mpadl.ComplexInstruction
 import org.modaptix.mumads.dsl.mpadl.mpadl.InstructionVariant
 import org.modaptix.mumads.dsl.mpadl.mpadl.SimpleInstruction
+import org.modaptix.mumads.dsl.asm.asm.MacroDefinition
 
 /**
  * Custom validation rules. 
@@ -24,31 +24,14 @@ class AsmValidator extends AbstractAsmValidator
 	public static val COMPLEX_INSTRUCTION_TOO_FEW_OPERANDS = 'citfo'
 	public static val COMPLEX_INSTRUCTION_TOO_MANY_OPERANDS = 'citmo'
 	public static val COMPLEX_INSTRUCTION_WRONG_OPERAND_TYPE = 'ciwot'
+	public static val NAMED_REFERENCE_IS_MACRO = 'nrim'
 	
 	@Check
-	def checkOperand(Operand operand)
+	def checkNamedReference(NamedReference namedReference)
 	{
-		val EObject instruction = operand.eContainer
-		if (instruction instanceof ArchInstructionOrMacro)
-		{
-			// If this operand is being supplied to a SimpleInstruction then it shouldn't be!
-			if (instruction.mnemonic instanceof SimpleInstruction)
-			{
-				val SimpleInstruction simpleInstruction = instruction.mnemonic as SimpleInstruction
-				error('The instruction ' + simpleInstruction.name + ' does not accept any operands.',
-					AsmPackage.Literals.OPERAND__VALUE, SIMPLE_INSTRUCTION_WITH_OPERANDS)
-				return
-			}
-		}
-	}
-	
-	def boolean instVarOpLe(EList<InstructionVariant> instructionVariants, int operandCount)
-	{
-		for (InstructionVariant iv : instructionVariants)
-			if (iv.operands.length <= operandCount)
-				return true
-		
-		return false
+		if (namedReference.target instanceof MacroDefinition)
+			error("A macro name can never be used as an operand!", namedReference,
+				 AsmPackage.Literals.NAMED_REFERENCE__TARGET, NAMED_REFERENCE_IS_MACRO)
 	}
 	
 	@Check
@@ -58,67 +41,126 @@ class AsmValidator extends AbstractAsmValidator
 		{
 			if (instruction.mnemonic instanceof ComplexInstruction)
 			{
-				// Make an iterable which represents the instruction variants for this
-				// mnemonic.
-				val ComplexInstruction complexInstruction = instruction.mnemonic as ComplexInstruction
-				val EList<InstructionVariant> instructionVariants = complexInstruction.variants
-				//var Iterable<InstructionVariant> civi
-
-				val int operandCount = instruction.operands.length
-				
-				// Check that there are some instruction variants which take the
-				// supplied number of operands or less.
-				if (!instVarOpLe(instructionVariants, operandCount))
-				{
-					error('The instruction ' + complexInstruction.name + ' requires more than ' + operandCount + ' operands.',
-						AsmPackage.Literals.ARCH_INSTRUCTION_OR_MACRO__OPERANDS, COMPLEX_INSTRUCTION_TOO_FEW_OPERANDS)
-					return
-				}
-				
-				// Mark any operands which must be too many as erroneous.
-				var int maxOperandCount = instructionVariants.maxBy[it.operands.length].operands.length
-				if (operandCount > maxOperandCount)
-				{
-					for (i : maxOperandCount ..< operandCount)
-					{
-						error('Unexpected operand!', instruction.operands.get(i),
-							AsmPackage.Literals.OPERAND__VALUE, COMPLEX_INSTRUCTION_TOO_MANY_OPERANDS)
-					}
-					return
-				}
-				
-				// Filter the remaining candidate instruction variants.
-				val List<InstructionVariant> civ = instructionVariants.filter[it.operands.length == operandCount].toList
-				
-				// Loop through the operands supplied with this instruction...				
-				for (i : 0 ..< instruction.operands.length)
-				{
-					var Operand operand 
-					// If the candidate iterable is not empty then...
-					if (!civ.empty)
-					{
-						// Filter the possible variants   
-						operand = instruction.operands.get(i)
-						if (operand.immediate)
-							civ.removeAll(civ.filter[it.operands.get(i).addressingMode instanceof AddressingModeAddress])
-						else 
-							civ.removeAll(civ.filter[it.operands.get(i).addressingMode instanceof AddressingModeImmediate])
-					}
-					
-					// If the iterable is now empty then the last operand that we encountered must
-					// be the wrong type.
-					if (civ.empty)
-					{					
-						error('Incorrect operand type!', operand, 
-							AsmPackage.Literals.OPERAND__VALUE, COMPLEX_INSTRUCTION_WRONG_OPERAND_TYPE)
-						return
-					}					
-				}
+				subcheckComplexInstruction(instruction, instruction.mnemonic as ComplexInstruction)
+			}
+			else if (instruction.mnemonic instanceof SimpleInstruction)
+			{
+				subcheckSimpleInstruction(instruction, instruction.mnemonic as SimpleInstruction)
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace()
+		}
+	}
+	
+	def subcheckSimpleInstruction(ArchInstructionOrMacro archInst, SimpleInstruction simpInst)
+	{
+		// If there are no operands then all is well.
+		if ((archInst.operands == null) || (archInst.operands.length == 0))
+			return
+		
+		// There are some operands so flag each of them as erroneous.		
+		val String msg = 'The instruction ' + simpInst.name + ' does not accept any operands.' 
+		archInst.operands.forEach
+		[
+			error(msg, it,	AsmPackage.Literals.OPERAND__VALUE, SIMPLE_INSTRUCTION_WITH_OPERANDS)
+		]
+	}
+	
+	def subcheckComplexInstruction(ArchInstructionOrMacro archInst, ComplexInstruction compInst)
+	{
+		// Create an Instruction Variant Iterable (ivi) containing all possible instruction variants
+		// and a Candidate Instruction Variant Iterable (civi) containing all the current candidates for
+		// this instruction.  We'll also need a temporary holder for the new civi and a list of
+		// the operands which have been supplied.
+		var Iterable<InstructionVariant> ivi = compInst.variants		
+		var Iterable<InstructionVariant> civi = ivi
+		var Iterable<InstructionVariant> ncivi
+		val EList<Operand> operands = archInst.operands
+		val int operandCount = operands.length
+
+		// Check that there are some instruction variants which take the
+		// supplied number of operands or less.  If not then that is our
+		// first error.
+		ncivi = civi.filter[it.operands.length <= operandCount]
+		if (ncivi.empty)
+		{
+			error('The instruction ' + compInst.name + ' always requires more than ' + operandCount + ' operands.',
+				AsmPackage.Literals.ARCH_INSTRUCTION_OR_MACRO__OPERANDS, COMPLEX_INSTRUCTION_TOO_FEW_OPERANDS)
+		}
+
+		// Were we supplied with any operands?  If not then we're done already.
+		if (operandCount < 1)
+			return;
+
+		// Loop through the operands we were supplied with...		
+		for (i : 0 ..< operandCount)
+		{
+			var String msg
+			val operand = operands.get(i)
+			
+			// Filter the available instruction variants to those which take at least this
+			// number of parameters (remember, i is zero based).
+			ncivi = civi.filter[it.operands.length > i]
+			
+			// If the new civi is empty then this operand can never be valid so
+			// we need to raise an error.
+			if (ncivi.empty)
+			{
+				msg = "Unexpected operand! The " + compInst.name + 
+									" instruction never accepts this many operands."
+						
+				error(msg, operand,	AsmPackage.Literals.OPERAND__VALUE, COMPLEX_INSTRUCTION_TOO_MANY_OPERANDS)
+			}
+			else
+			{
+				// Filter the available instruction variants by this parameter.   
+				if (operand.immediate)
+					ncivi = civi.filter[it.operands.get(i).addressingMode instanceof AddressingModeImmediate]
+				else 
+					ncivi = civi.filter[it.operands.get(i).addressingMode instanceof AddressingModeAddress]
+					
+				// If the new civi is empty then there was a problem with this operand so
+				// we need to raise an error.
+				if (ncivi.empty)
+				{
+					var InstructionVariant iv
+					
+					// Could it be right if it was a different instruction variant?
+					if (operand.immediate)
+						iv = ivi.findFirst[it.operands.get(i).addressingMode instanceof AddressingModeImmediate]
+					else
+						iv = ivi.findFirst[it.operands.get(i).addressingMode instanceof AddressingModeAddress]
+						
+					if (iv == null)
+					{
+						// It seems not.
+						msg = "The " + compInst.name + " instruction never accepts an "
+						if (operand.immediate)
+							msg += "immediate value"
+						else
+							msg += "address"
+							
+						msg += " as parameter " + (i+1)
+					}
+					else
+					{
+						// Presumably, if we got this far, then it should have been the other type.
+						msg = "The " + compInst.name + " instruction ("
+						msg += "...) expects an "
+						if (operand.immediate)
+							msg += "immediate value"
+						else
+							msg += "address"
+						msg += " parameter " + (i+1)
+					}
+					error(msg, operand, AsmPackage.Literals.OPERAND__VALUE, COMPLEX_INSTRUCTION_WRONG_OPERAND_TYPE)
+				}
+				
+				// For the next pass only the new candidates need to be considered.
+				civi = ncivi
+			}
 		}
 	}
 }
