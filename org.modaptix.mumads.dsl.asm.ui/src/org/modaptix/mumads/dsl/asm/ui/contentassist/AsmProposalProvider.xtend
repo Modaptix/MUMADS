@@ -4,9 +4,18 @@
 package org.modaptix.mumads.dsl.asm.ui.contentassist
 
 import org.modaptix.mumads.dsl.asm.ui.contentassist.AbstractAsmProposalProvider
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
-class AsmProposalProvider extends AbstractAsmProposalProvider {
+class AsmProposalProvider extends AbstractAsmProposalProvider
+{
+	override completeArchInstructionOrMacro_Mnemonic(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	{
+		super.completeArchInstructionOrMacro_Mnemonic(model, assignment, context, acceptor)
+	}
 }
