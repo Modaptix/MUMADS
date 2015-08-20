@@ -3,14 +3,37 @@
 */
 package org.modaptix.mumads.dsl.mpadl;
 
-/**
- * Initialization support for running Xtext languages 
- * without equinox extension registry
- */
-public class MpadlStandaloneSetup extends MpadlStandaloneSetupGenerated{
+import org.eclipse.emf.ecore.EPackage;
 
-	public static void doSetup() {
+import com.google.inject.Injector;
+
+/**
+ * Initialization support for running Xtext languages without equinox extension
+ * registry
+ */
+public class MpadlStandaloneSetup extends MpadlStandaloneSetupGenerated
+{
+
+	public static void doSetup()
+	{
 		new MpadlStandaloneSetup().createInjectorAndDoEMFRegistration();
 	}
-}
 
+	@Override
+	public void register(Injector injector)
+	{
+		if (!EPackage.Registry.INSTANCE.containsKey("http://www.modaptix.org/xtext/expressions/ArithmeticExpression"))
+		{
+			EPackage.Registry.INSTANCE.put("http://www.modaptix.org/xtext/expressions/ArithmeticExpression",
+					org.modaptix.xtext.expressions.arithmeticExpression.ArithmeticExpressionPackage.eINSTANCE);
+		}
+		
+		if (!EPackage.Registry.INSTANCE.containsKey("http://www.modaptix.org/mumads/dsl/mpadl/Mpadl"))
+		{
+			EPackage.Registry.INSTANCE.put("http://www.modaptix.org/mumads/dsl/mpadl/Mpadl",
+					org.modaptix.mumads.dsl.mpadl.mpadl.MpadlPackage.eINSTANCE);
+		}
+		
+		super.register(injector);
+	}
+}

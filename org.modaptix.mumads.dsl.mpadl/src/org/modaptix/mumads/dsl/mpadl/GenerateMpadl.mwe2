@@ -23,6 +23,15 @@ Workflow {
     }
     
     component = DirectoryCleaner {
+    	directory = "${runtimeProject}/emf-gen"
+    }
+    
+    component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+    	genModel = "platform:/resource/${projectName}/model/declared/Mpadl.genmodel"
+    	srcPath = "platform:/resource/${projectName}/src"
+    }
+    
+    component = DirectoryCleaner {
     	directory = "${runtimeProject}/src-gen"
     }
     
@@ -46,13 +55,16 @@ Workflow {
     	projectNameUi = "${projectName}.ui"
     	encoding = encoding
     	language = auto-inject {
+    		loadedResource = "platform:/resource/${projectName}/model/declared/Mpadl.ecore"
+    		loadedResource = "platform:/resource/org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore"
+    		
     		uri = grammarURI
     
     		// Java API to access grammar elements (required by several other fragments)
     		fragment = grammarAccess.GrammarAccessFragment auto-inject {}
     
     		// generates Java API for the generated EPackages
-    		fragment = ecore.EMFGeneratorFragment auto-inject {}
+    		// fragment = ecore.EMFGeneratorFragment auto-inject {}
     
     		// the old serialization component
     		// fragment = parseTreeConstructor.ParseTreeConstructorFragment auto-inject {}    

@@ -7,7 +7,7 @@
     <package 
        uri = "http://www.modaptix.org/mumads/dsl/mpadl/Mpadl" 
        class = "org.modaptix.mumads.dsl.mpadl.mpadl.MpadlPackage"
-       genModel = "model/generated/Mpadl.genmodel" /> 
+       genModel = "model/declared/Mpadl.genmodel" /> 
 	
   </extension>
 

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mpadl" nsURI="http://www.modaptix.org/mumads/dsl/mpadl/Mpadl"
+    nsPrefix="mpadl">
+  <eClassifiers xsi:type="ecore:EClass" name="Mpadl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registers" upperBound="-1"
+        eType="#//Instruction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operandTypes" upperBound="-1"
+        eType="#//OperandType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interruptType" eType="#//INTERRUPT_TYPE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interruptModes" upperBound="-1"
+        eType="#//InterruptMode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instructionSet" upperBound="-1"
+        eType="#//Instruction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Instruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterIndexable" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterReal" eSuperTypes="#//RegisterIndexable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterMmap" eSuperTypes="#//RegisterIndexable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterIndexed" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="index" eType="#//RegisterIndexable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterRealIndexed" eSuperTypes="#//RegisterIndexed"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterMmapIndexed" eSuperTypes="#//RegisterIndexed">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterFlag" eSuperTypes="#//Instruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="longName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeWithSize" eSuperTypes="#//OperandType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeImmediate" eSuperTypes="#//OperandTypeWithSize"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeAddress" eSuperTypes="#//OperandTypeWithSize"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeRegister" eSuperTypes="#//OperandType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InterruptMode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleInstruction" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opcodes" upperBound="-1"
+        eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OpcodeReference" eSuperTypes="../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opcode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexInstruction" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variants" upperBound="-1"
+        eType="#//InstructionVariant" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstructionVariant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operands" upperBound="-1"
+        eType="#//Operand" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opcodes" upperBound="-1"
+        eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OperandType" eType="#//OperandType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="INTERRUPT_TYPE">
+    <eLiterals name="REAL" literal="real"/>
+    <eLiterals name="WAIT" value="1" literal="simulated"/>
+  </eClassifiers>
+</ecore:EPackage>

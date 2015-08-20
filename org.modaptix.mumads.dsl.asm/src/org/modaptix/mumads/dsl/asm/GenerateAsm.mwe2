@@ -22,7 +22,7 @@ Workflow {
     	registerGenModelFile = "platform:/resource/org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.genmodel"
 
     	registerGeneratedEPackage = "org.modaptix.mumads.dsl.mpadl.mpadl.MpadlPackage"
-    	registerGenModelFile = "platform:/resource/org.modaptix.mumads.dsl.mpadl/model/generated/Mpadl.genmodel"
+    	registerGenModelFile = "platform:/resource/org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.genmodel"
     }
     
     component = DirectoryCleaner {

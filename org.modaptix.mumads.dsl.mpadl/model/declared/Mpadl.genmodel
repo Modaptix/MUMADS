@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.modaptix.mumads.dsl.mpadl/emf-gen" editDirectory="/org.modaptix.mumads.dsl.mpadl.edit/src"
+    editorDirectory="/org.modaptix.mumads.dsl.mpadl.editor/src" modelPluginID="org.modaptix.mumads.dsl.mpadl"
+    forceOverwrite="true" modelName="Mpadl" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="org.modaptix.mumads.dsl.mpadl.edit"
+    editorPluginID="org.modaptix.mumads.dsl.mpadl.editor" runtimeVersion="2.11" usedGenPackages="../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.genmodel#//arithmeticExpression">
+  <genPackages prefix="Mpadl" basePackage="org.modaptix.mumads.dsl.mpadl" disposableProviderFactory="true"
+      fileExtensions="mpadl" ecorePackage="Mpadl.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Mpadl.ecore#//INTERRUPT_TYPE">
+      <genEnumLiterals ecoreEnumLiteral="Mpadl.ecore#//INTERRUPT_TYPE/REAL"/>
+      <genEnumLiterals ecoreEnumLiteral="Mpadl.ecore#//INTERRUPT_TYPE/WAIT"/>
+    </genEnums>
+    <genClasses ecoreClass="Mpadl.ecore#//Mpadl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//Mpadl/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//Mpadl/registers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//Mpadl/operandTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//Mpadl/interruptType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//Mpadl/interruptModes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//Mpadl/instructionSet"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//Instruction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//Instruction/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterIndexable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//RegisterIndexable/size"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterReal"/>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterMmap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//RegisterMmap/address"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterIndexed">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Mpadl.ecore#//RegisterIndexed/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//RegisterIndexed/size"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterRealIndexed"/>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterMmapIndexed">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//RegisterMmapIndexed/address"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//RegisterFlag"/>
+    <genClasses ecoreClass="Mpadl.ecore#//OperandType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//OperandType/longName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//OperandType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//OperandTypeWithSize">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//OperandTypeWithSize/size"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//OperandTypeImmediate"/>
+    <genClasses ecoreClass="Mpadl.ecore#//OperandTypeAddress"/>
+    <genClasses ecoreClass="Mpadl.ecore#//OperandTypeRegister"/>
+    <genClasses ecoreClass="Mpadl.ecore#//InterruptMode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//InterruptMode/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//SimpleInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//SimpleInstruction/opcodes"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//OpcodeReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Mpadl.ecore#//OpcodeReference/opcode"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//ComplexInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//ComplexInstruction/variants"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//InstructionVariant">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//InstructionVariant/operands"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mpadl.ecore#//InstructionVariant/opcodes"/>
+    </genClasses>
+    <genClasses ecoreClass="Mpadl.ecore#//Operand">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Mpadl.ecore#//Operand/OperandType"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
