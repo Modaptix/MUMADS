@@ -21,8 +21,8 @@ class MpadlOutlineTreeProvider extends DefaultOutlineTreeProvider
 		for (node : rootElement.registers)
 			createNode(temp, node)
 		
-		temp = createEObjectNode(parentNode, rootElement, null, "Addressing Modes", true)
-		for (node : rootElement.addressingModes)
+		temp = createEObjectNode(parentNode, rootElement, null, "Operand Types", true)
+		for (node : rootElement.operandTypes)
 			createNode(temp, node)
 			
 		temp = createEObjectNode(parentNode, rootElement, null, "Interrupt Modes", true)

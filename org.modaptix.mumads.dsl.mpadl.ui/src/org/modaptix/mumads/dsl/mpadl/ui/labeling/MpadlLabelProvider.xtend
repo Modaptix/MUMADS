@@ -9,8 +9,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
 import org.modaptix.mumads.dsl.mpadl.mpadl.InstructionVariant
 import org.modaptix.mumads.dsl.mpadl.mpadl.Operand
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable
-import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingMode
-import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeWithSize
+import org.modaptix.mumads.dsl.mpadl.mpadl.OperandType
+import org.modaptix.mumads.dsl.mpadl.mpadl.OperandTypeWithSize
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexed
 
 /**
@@ -46,12 +46,12 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 		return name;
 	}
 
-	def text(AddressingMode addressingMode)
+	def text(OperandType addressingMode)
 	{
 		return addressingMode.longName;
 	}
 
-	def text(AddressingModeWithSize addressingMode)
+	def text(OperandTypeWithSize addressingMode)
 	{
 		return addressingMode.longName + " (" + addressingMode.size + " bits)";
 	}
@@ -64,7 +64,7 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 		{
 			if (!first)
 				name+=" "
-			name += operand.addressingMode.name
+			name += operand.operandType.name
 			first = false
 		}
 		return name

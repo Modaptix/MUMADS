@@ -16,8 +16,8 @@ Mpadl:
 			registers+=RegisterOrFlag (',' registers+=RegisterOrFlag)*
 		'}'
 		
-		'addressing_modes' '{' 
-			addressingModes+=AddressingMode (',' addressingModes+=AddressingMode)*
+		'operand_types' '{' 
+			operandTypes+=OperandType (',' operandTypes+=OperandType)*
 		'}'
 		
 		'interrupt_type'
@@ -78,24 +78,24 @@ RegisterFlag:
 	name=ID
 ;
 
-AddressingMode:
-	AddressingModeWithSize | AddressingModeIndexed
+OperandType:
+	OperandTypeWithSize | OperandTypeRegister
 ;
 
-AddressingModeWithSize:
-	AddressingModeImmediate | AddressingModeAddress
+OperandTypeWithSize:
+	OperandTypeImmediate | OperandTypeAddress
 ;
 
-AddressingModeImmediate:
+OperandTypeImmediate:
 	'immediate' longName=STRING name=ID size=INT
 ;
 
-AddressingModeAddress:
+OperandTypeAddress:
 	'address' longName=STRING name=ID size=INT
 ;
 
-AddressingModeIndexed:
-	'indexed' longName=STRING name=ID 
+OperandTypeRegister:
+	'register' longName=STRING name=ID 
 ;
 
 InterruptMode:
@@ -132,7 +132,7 @@ InstructionVariant:
 ;
 
 Operand:
-	addressingMode=[AddressingMode]
+	OperandType=[OperandType]
 ;
 
 enum INTERRUPT_TYPE: REAL='real' | WAIT='simulated';

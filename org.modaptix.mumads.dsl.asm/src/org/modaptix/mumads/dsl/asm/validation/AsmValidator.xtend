@@ -6,8 +6,8 @@ import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro
 import org.modaptix.mumads.dsl.asm.asm.AsmPackage
 import org.modaptix.mumads.dsl.asm.asm.NamedReference
 import org.modaptix.mumads.dsl.asm.asm.Operand
-import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeAddress
-import org.modaptix.mumads.dsl.mpadl.mpadl.AddressingModeImmediate
+import org.modaptix.mumads.dsl.mpadl.mpadl.OperandTypeAddress
+import org.modaptix.mumads.dsl.mpadl.mpadl.OperandTypeImmediate
 import org.modaptix.mumads.dsl.mpadl.mpadl.ComplexInstruction
 import org.modaptix.mumads.dsl.mpadl.mpadl.InstructionVariant
 import org.modaptix.mumads.dsl.mpadl.mpadl.SimpleInstruction
@@ -117,9 +117,9 @@ class AsmValidator extends AbstractAsmValidator
 			{
 				// Filter the available instruction variants by this parameter.   
 				if (operand.immediate)
-					ncivi = civi.filter[it.operands.get(i).addressingMode instanceof AddressingModeImmediate]
+					ncivi = civi.filter[it.operands.get(i).operandType instanceof OperandTypeImmediate]
 				else 
-					ncivi = civi.filter[it.operands.get(i).addressingMode instanceof AddressingModeAddress]
+					ncivi = civi.filter[it.operands.get(i).operandType instanceof OperandTypeAddress]
 					
 				// If the new civi is empty then there was a problem with this operand so
 				// we need to raise an error.
@@ -129,9 +129,9 @@ class AsmValidator extends AbstractAsmValidator
 					
 					// Could it be right if it was a different instruction variant?
 					if (operand.immediate)
-						iv = ivi.findFirst[it.operands.get(i).addressingMode instanceof AddressingModeImmediate]
+						iv = ivi.findFirst[it.operands.get(i).operandType instanceof OperandTypeImmediate]
 					else
-						iv = ivi.findFirst[it.operands.get(i).addressingMode instanceof AddressingModeAddress]
+						iv = ivi.findFirst[it.operands.get(i).operandType instanceof OperandTypeAddress]
 						
 					if (iv == null)
 					{
