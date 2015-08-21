@@ -3,6 +3,7 @@
 	<name>org.modaptix.mumads.dsl.mpadl.ui</name>
 	<comment></comment>
 	<projects>
+		<project>org.modaptix.mumads.dsl.mpadl</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

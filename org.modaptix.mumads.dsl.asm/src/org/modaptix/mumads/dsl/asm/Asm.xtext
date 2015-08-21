@@ -12,16 +12,21 @@ generate asm "http://www.modaptix.org/mumads/dsl/asm/Asm"
 
 
 Asm:
-	(WS* EOL)*	
+	(WS* EOL)*
+	(imports+=Import (WS* EOL)+)?
 	(code+=Instruction (WS* EOL)+)+ 
-;
-
-Instruction returns mpadl::Instruction:
-	Import | MacroDefinition | InternalInstruction | ArchInstructionOrMacro
 ;
 
 Import:
 	'#'? ('import'|'include') WS* importURI=STRING
+;
+
+Instruction returns mpadl::Instruction:
+	ArchInstructionOrMacro | ConcreteInstruction | PseudoInstruction
+;
+
+ConcreteInstruction returns mpadl::ConcreteInstruction:
+	MacroDefinition //| ArchInstructionOrMacro
 ;
 
 MacroDefinition:
@@ -30,24 +35,24 @@ MacroDefinition:
 	WS ('ENDM'|'endm')
 ;
 
-InternalInstruction:
-	InternalInstructionEqu | InternalInstructionOrg | InternalInstructionDs
+PseudoInstruction returns mpadl::PseudoInstruction:
+	PseudoInstructionEqu | PseudoInstructionOrg | PseudoInstructionDs
 ;
 
-InternalInstructionEqu:
+PseudoInstructionEqu:
 	name=ID WS ('equ'|'EQU') WS value = IntegerExpression
 ;
 
-InternalInstructionOrg:
+PseudoInstructionOrg:
 	WS ('org'|'ORG') WS address = IntegerExpression
 ;
 
-InternalInstructionDs:
+PseudoInstructionDs:
 	name=ID WS ('ds'|'DS') ('.' variant=ID)? WS value = IntegerExpression
 ;
 
 ArchInstructionOrMacro:
-	(name=ID)? WS mnemonic=[mpadl::Instruction] (WS operands+=Operand (COMMA operands+=Operand)* )?	
+	(name=ID)? WS mnemonic=[mpadl::ConcreteInstruction] (WS operands+=Operand (COMMA operands+=Operand)* )?	
 ;
 
 Operand:
@@ -60,7 +65,7 @@ IntegerLiteralOrReference returns arithmeticExpression::IntegerExpression:
 ;
 
 NamedReference:
-	target=[mpadl::Instruction|RegisterID]	//NamedReferenceName
+	target=[mpadl::NamedEntity|RegisterID]	//NamedReferenceName
 ;
 
 RegisterID returns ecore::EString:

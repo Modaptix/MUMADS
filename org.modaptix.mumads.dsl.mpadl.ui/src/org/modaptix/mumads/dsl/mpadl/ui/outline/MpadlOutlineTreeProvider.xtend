@@ -18,7 +18,7 @@ class MpadlOutlineTreeProvider extends DefaultOutlineTreeProvider
 	def _createChildren(IOutlineNode parentNode, Mpadl rootElement)
 	{
 		var temp = createEObjectNode(parentNode, rootElement, null, "Registers", true)
-		for (node : rootElement.registers)
+		for (node : rootElement.cpuFeatures)
 			createNode(temp, node)
 		
 		temp = createEObjectNode(parentNode, rootElement, null, "Operand Types", true)

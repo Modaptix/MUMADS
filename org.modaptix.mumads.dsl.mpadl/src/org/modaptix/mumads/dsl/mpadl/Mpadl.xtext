@@ -13,11 +13,11 @@ import "http://www.modaptix.org/mumads/dsl/mpadl/Mpadl"
 Mpadl:
 	'architecture' name=STRING '{'
 	
-		'registers' '{'
-			registers+=RegisterOrFlag (',' registers+=RegisterOrFlag)*
+		'cpu_features' '{'
+			cpuFeatures+=CpuFeature (',' cpuFeatures+=CpuFeature)*
 		'}'
 		
-		'operand_types' '{' 
+		'operand_types' '{'
 			operandTypes+=OperandType (',' operandTypes+=OperandType)*
 		'}'
 		
@@ -34,8 +34,8 @@ Mpadl:
 	'}'
 ;
 
-RegisterOrFlag returns Instruction:
-	RegisterIndexable | RegisterIndexed | RegisterFlag
+CpuFeature:
+	RegisterIndexable | RegisterIndexed | Flag
 ;
 
 RegisterIndexable:
@@ -74,7 +74,7 @@ RegisterMmapIndexed:
 	address=HEX	
 ;
 
-RegisterFlag:
+Flag:
 	'flag'
 	name=ID
 ;
@@ -116,11 +116,11 @@ Opcode returns arithmeticExpression::IntegerExpression:
 ;
 
 IntegerLiteralOrReference returns arithmeticExpression::IntegerExpression:
-	IntegerLiteral | OpcodeReference
+	IntegerLiteral | OperandReference
 ;
 
-OpcodeReference:
-	'[' opcode=INT ']'
+OperandReference:
+	'[' operand=INT ']'
 ;
 
 ComplexInstruction:

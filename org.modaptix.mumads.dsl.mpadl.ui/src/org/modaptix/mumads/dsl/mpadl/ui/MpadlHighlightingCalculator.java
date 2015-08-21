@@ -7,9 +7,9 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.modaptix.mumads.dsl.mpadl.mpadl.OperandType;
+import org.modaptix.mumads.dsl.mpadl.mpadl.Flag;
 import org.modaptix.mumads.dsl.mpadl.mpadl.Instruction;
 import org.modaptix.mumads.dsl.mpadl.mpadl.Operand;
-import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterFlag;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterMmap;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterReal;
@@ -54,7 +54,7 @@ public class MpadlHighlightingCalculator extends PolymorphicSemanticHighlighting
 		acceptor.addPosition(node.getOffset(), node.getLength(), MpadlHighlightingConfiguration.REGISTER_INDX_ID);
 	}
 	
-	protected void highlight(RegisterFlag semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(Flag semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
 		final String featureName = assignment.getFeature();
 		

@@ -8,8 +8,8 @@ import org.eclipse.xtext.impl.KeywordImpl;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro;
-import org.modaptix.mumads.dsl.asm.asm.InternalInstructionDs;
-import org.modaptix.mumads.dsl.asm.asm.InternalInstructionEqu;
+import org.modaptix.mumads.dsl.asm.asm.PseudoInstructionDs;
+import org.modaptix.mumads.dsl.asm.asm.PseudoInstructionEqu;
 import org.modaptix.mumads.dsl.asm.asm.MacroDefinition;
 import org.modaptix.mumads.dsl.asm.asm.NamedReference;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable;
@@ -49,9 +49,9 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.REGISTER_ID);
 		else if (namedReference.getTarget() instanceof ArchInstructionOrMacro)
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.LABEL_ID);
-		else if (namedReference.getTarget() instanceof InternalInstructionEqu)
+		else if (namedReference.getTarget() instanceof PseudoInstructionEqu)
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.EQUATE_ID);
-		else if (namedReference.getTarget() instanceof InternalInstructionDs)
+		else if (namedReference.getTarget() instanceof PseudoInstructionDs)
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.DS_ID);
 	}
 	
@@ -74,7 +74,7 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 		}
 	}
 	
-	protected void highlight(InternalInstructionEqu semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(PseudoInstructionEqu semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
 		if (assignment == null)
 			return;
@@ -88,7 +88,7 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 		}
 	}
 	
-	protected void highlight(InternalInstructionDs semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(PseudoInstructionDs semanticElement, RuleCall grammarElement, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
 		if (assignment == null)
 			return;
