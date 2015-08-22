@@ -12,6 +12,7 @@ import org.modaptix.mumads.dsl.mpadl.mpadl.ComplexInstruction
 import org.modaptix.mumads.dsl.mpadl.mpadl.InstructionVariant
 import org.modaptix.mumads.dsl.mpadl.mpadl.SimpleInstruction
 import org.modaptix.mumads.dsl.asm.asm.MacroDefinition
+import org.modaptix.xtext.expressions.arithmeticExpression.IntegerExpression
 
 /**
  * Custom validation rules. 
@@ -25,6 +26,7 @@ class AsmValidator extends AbstractAsmValidator
 	public static val COMPLEX_INSTRUCTION_TOO_MANY_OPERANDS = 'citmo'
 	public static val COMPLEX_INSTRUCTION_WRONG_OPERAND_TYPE = 'ciwot'
 	public static val NAMED_REFERENCE_IS_MACRO = 'nrim'
+	public static val NAMED_REFERENCE_IS_NOT_INTEGER_EVALUABLE = 'nrinie'
 	
 	@Check
 	def checkNamedReference(NamedReference namedReference)
@@ -32,6 +34,9 @@ class AsmValidator extends AbstractAsmValidator
 		if (namedReference.target instanceof MacroDefinition)
 			error("A macro name can never be used as an operand!", namedReference,
 				 AsmPackage.Literals.NAMED_REFERENCE__TARGET, NAMED_REFERENCE_IS_MACRO)
+		else if (!(namedReference.target instanceof IntegerExpression))
+			error("To be used as an operand a label must be capable of being translated to an integer value!", namedReference,
+				 AsmPackage.Literals.NAMED_REFERENCE__TARGET, NAMED_REFERENCE_IS_NOT_INTEGER_EVALUABLE)
 	}
 	
 	@Check

@@ -45,13 +45,13 @@ RegisterIndexable:
 RegisterReal:
 	'real'
 	name=ID
-	'(' size=INT ')'	
+	'(' width=INT ')'	
 ;
 
 RegisterMmap:
 	'mmap'
 	name=ID
-	'(' size=INT ')'	
+	'(' width=INT ')'	
 	address=HEX	
 ;
 
@@ -63,14 +63,14 @@ RegisterRealIndexed:
 	'real'
 	name=ID
 	'[' index=[RegisterIndexable] ']'
-	'(' size=INT ')'	
+	'(' width=INT ')'	
 ;
 
 RegisterMmapIndexed:
 	'mmap'
 	name=ID
 	'[' index=[RegisterIndexable] ']'
-	'(' size=INT ')'	
+	'(' width=INT ')'	
 	address=HEX	
 ;
 
@@ -80,19 +80,19 @@ Flag:
 ;
 
 OperandType:
-	OperandTypeWithSize | OperandTypeRegister
+	OperandTypeWithWidth | OperandTypeRegister
 ;
 
-OperandTypeWithSize:
+OperandTypeWithWidth:
 	OperandTypeImmediate | OperandTypeAddress
 ;
 
 OperandTypeImmediate:
-	'immediate' longName=STRING name=ID size=INT
+	'immediate' longName=STRING name=ID width=INT
 ;
 
 OperandTypeAddress:
-	'address' longName=STRING name=ID size=INT
+	'address' longName=STRING name=ID width=INT
 ;
 
 OperandTypeRegister:

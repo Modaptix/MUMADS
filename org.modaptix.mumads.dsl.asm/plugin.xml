@@ -7,7 +7,7 @@
     <package 
        uri = "http://www.modaptix.org/mumads/dsl/asm/Asm" 
        class = "org.modaptix.mumads.dsl.asm.asm.AsmPackage"
-       genModel = "model/generated/Asm.genmodel" /> 
+       genModel = "model/declared/Asm.genmodel" /> 
 	
   </extension>
 

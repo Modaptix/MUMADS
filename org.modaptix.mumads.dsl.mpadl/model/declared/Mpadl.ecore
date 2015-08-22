@@ -17,27 +17,21 @@
   <eClassifiers xsi:type="ecore:EClass" name="Instruction" abstract="true" eSuperTypes="#//NamedEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="RegisterIndexable" abstract="true" eSuperTypes="#//Register"/>
   <eClassifiers xsi:type="ecore:EClass" name="RegisterReal" eSuperTypes="#//RegisterIndexable"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RegisterMmap" eSuperTypes="#//RegisterIndexable">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterMmap" eSuperTypes="#//RegisterIndexable #//AddressableEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="RegisterIndexed" abstract="true" eSuperTypes="#//Register">
     <eStructuralFeatures xsi:type="ecore:EReference" name="index" eType="#//RegisterIndexable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RegisterRealIndexed" eSuperTypes="#//RegisterIndexed"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RegisterMmapIndexed" eSuperTypes="#//RegisterIndexed">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterMmapIndexed" eSuperTypes="#//RegisterIndexed #//AddressableEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Flag" eSuperTypes="#//CpuFeature"/>
   <eClassifiers xsi:type="ecore:EClass" name="OperandType" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="longName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeWithSize" abstract="true"
-      eSuperTypes="#//OperandType">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeImmediate" eSuperTypes="#//OperandTypeWithSize"/>
-  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeAddress" eSuperTypes="#//OperandTypeWithSize"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeWithWidth" abstract="true"
+      eSuperTypes="#//OperandType #//BitDimensionedEntity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeImmediate" eSuperTypes="#//OperandTypeWithWidth"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeAddress" eSuperTypes="#//OperandTypeWithWidth"/>
   <eClassifiers xsi:type="ecore:EClass" name="OperandTypeRegister" eSuperTypes="#//OperandType"/>
   <eClassifiers xsi:type="ecore:EClass" name="InterruptMode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -71,11 +65,19 @@
   <eClassifiers xsi:type="ecore:EClass" name="NamedEntity" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Register" abstract="true" eSuperTypes="#//CpuFeature">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Register" abstract="true" eSuperTypes="#//CpuFeature #//BitDimensionedEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="PseudoInstruction" abstract="true" eSuperTypes="#//Instruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConcreteInstruction" abstract="true"
       eSuperTypes="#//Instruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="CpuFeature" abstract="true" eSuperTypes="#//NamedEntity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AddressableEntity" abstract="true" eSuperTypes="../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BitDimensionedEntity" abstract="true"
+      eSuperTypes="#//ByteDimensionedEntity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ByteDimensionedEntity" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
 </ecore:EPackage>

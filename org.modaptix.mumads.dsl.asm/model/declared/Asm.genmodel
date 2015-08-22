@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.modaptix.mumads.dsl.asm/emf-gen" editDirectory="/org.modaptix.mumads.dsl.asm.edit/src"
+    editorDirectory="/org.modaptix.mumads.dsl.asm.editor/src" modelPluginID="org.modaptix.mumads.dsl.asm"
+    forceOverwrite="true" modelName="Asm" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="org.modaptix.mumads.dsl.asm.edit"
+    editorPluginID="org.modaptix.mumads.dsl.asm.editor" runtimeVersion="2.11" usedGenPackages="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.genmodel#//mpadl ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.genmodel#//arithmeticExpression">
+  <genPackages prefix="Asm" basePackage="org.modaptix.mumads.dsl.asm" disposableProviderFactory="true"
+      fileExtensions="asm" ecorePackage="Asm.ecore#/">
+    <genClasses ecoreClass="Asm.ecore#//Asm">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//Asm/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//Asm/code"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asm.ecore#//Import/importURI"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//MacroDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//MacroDefinition/code"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//PseudoInstructionEqu">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//PseudoInstructionEqu/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//PseudoInstructionOrg">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//PseudoInstructionOrg/address"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//PseudoInstructionDs">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asm.ecore#//PseudoInstructionDs/variant"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//PseudoInstructionDs/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//ArchInstructionOrMacro">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asm.ecore#//ArchInstructionOrMacro/mnemonic"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//ArchInstructionOrMacro/operands"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//Operand">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asm.ecore#//Operand/immediate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asm.ecore#//Operand/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Asm.ecore#//NamedReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asm.ecore#//NamedReference/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

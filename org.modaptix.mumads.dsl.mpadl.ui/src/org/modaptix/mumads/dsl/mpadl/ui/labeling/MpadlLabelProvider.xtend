@@ -10,7 +10,7 @@ import org.modaptix.mumads.dsl.mpadl.mpadl.InstructionVariant
 import org.modaptix.mumads.dsl.mpadl.mpadl.Operand
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable
 import org.modaptix.mumads.dsl.mpadl.mpadl.OperandType
-import org.modaptix.mumads.dsl.mpadl.mpadl.OperandTypeWithSize
+import org.modaptix.mumads.dsl.mpadl.mpadl.OperandTypeWithWidth
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexed
 
 /**
@@ -29,7 +29,7 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 	{
 		var String name = register.getName()
 		
-		name += " (" + register.size + " bits)";
+		name += " (" + register.width + " bits)";
 					
 		return name;
 	}
@@ -41,7 +41,7 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 		if (register.getIndex() != null)
 			name += "["+register.getIndex().getName()+"]";
 			
-		name += " (" + register.size + " bits)";
+		name += " (" + register.width + " bits)";
 					
 		return name;
 	}
@@ -51,9 +51,9 @@ class MpadlLabelProvider extends DefaultEObjectLabelProvider {
 		return addressingMode.longName;
 	}
 
-	def text(OperandTypeWithSize addressingMode)
+	def text(OperandTypeWithWidth addressingMode)
 	{
-		return addressingMode.longName + " (" + addressingMode.size + " bits)";
+		return addressingMode.longName + " (" + addressingMode.width + " bits)";
 	}
 
 	def text(InstructionVariant instructionVariant)
