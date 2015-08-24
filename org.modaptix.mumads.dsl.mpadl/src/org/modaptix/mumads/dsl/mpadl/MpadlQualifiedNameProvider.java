@@ -9,6 +9,7 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.modaptix.mumads.dsl.mpadl.mpadl.CpuFeature;
 import org.modaptix.mumads.dsl.mpadl.mpadl.Instruction;
 import org.modaptix.mumads.dsl.mpadl.mpadl.MpadlPackage;
+import org.modaptix.mumads.dsl.mpadl.mpadl.OperandType;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexed;
 
 public class MpadlQualifiedNameProvider extends	DefaultDeclarativeQualifiedNameProvider
@@ -23,10 +24,10 @@ public class MpadlQualifiedNameProvider extends	DefaultDeclarativeQualifiedNameP
 		return QualifiedName.create(feature.getName());
 	}
 
-	/*protected QualifiedName qualifiedName(RegisterIndexable register)
+	protected QualifiedName qualifiedName(OperandType operandType)
 	{
-		return QualifiedName.create(register.getName());
-	}*/
+		return QualifiedName.create(operandType.getName());
+	}
 
 	protected QualifiedName qualifiedName(RegisterIndexed register)
 	{

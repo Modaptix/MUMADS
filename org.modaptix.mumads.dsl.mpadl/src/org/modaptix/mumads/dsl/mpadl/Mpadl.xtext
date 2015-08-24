@@ -84,15 +84,19 @@ OperandType:
 ;
 
 OperandTypeWithWidth:
-	OperandTypeImmediate | OperandTypeAddress
+	OperandTypeImmediate | OperandTypeAbsoluteAddress | OperandTypeRelativeAddress
 ;
 
 OperandTypeImmediate:
 	'immediate' longName=STRING name=ID width=INT
 ;
 
-OperandTypeAddress:
-	'address' longName=STRING name=ID width=INT
+OperandTypeAbsoluteAddress:
+	'absolute' longName=STRING name=ID width=INT
+;
+
+OperandTypeRelativeAddress:
+	'relative' negNumType=NEGATIVE_NUMBER_TYPE longName=STRING name=ID width=INT 
 ;
 
 OperandTypeRegister:
@@ -133,10 +137,12 @@ InstructionVariant:
 ;
 
 Operand:
-	OperandType=[OperandType]
+	operandType=[NamedFeature]
 ;
 
 enum INTERRUPT_TYPE: REAL='real' | WAIT='simulated';
+
+enum NEGATIVE_NUMBER_TYPE: ONES_COMPLEMENT = '1s-complement' | TWOS_COMPLEMENT = '2s-complement';
 
 terminal EOL: ('\r'? '\n')+;
 terminal WS: (' '|'\t')+;

@@ -24,14 +24,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="RegisterRealIndexed" eSuperTypes="#//RegisterIndexed"/>
   <eClassifiers xsi:type="ecore:EClass" name="RegisterMmapIndexed" eSuperTypes="#//RegisterIndexed #//AddressableEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Flag" eSuperTypes="#//CpuFeature"/>
-  <eClassifiers xsi:type="ecore:EClass" name="OperandType" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="OperandType" abstract="true" eSuperTypes="#//NamedFeature">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="longName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OperandTypeWithWidth" abstract="true"
       eSuperTypes="#//OperandType #//BitDimensionedEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="OperandTypeImmediate" eSuperTypes="#//OperandTypeWithWidth"/>
-  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeAddress" eSuperTypes="#//OperandTypeWithWidth"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeAddress" abstract="true"
+      eSuperTypes="#//OperandTypeWithWidth"/>
   <eClassifiers xsi:type="ecore:EClass" name="OperandTypeRegister" eSuperTypes="#//OperandType"/>
   <eClassifiers xsi:type="ecore:EClass" name="InterruptMode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -56,7 +57,7 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operand">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="OperandType" eType="#//OperandType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operandType" eType="#//NamedFeature"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="INTERRUPT_TYPE">
     <eLiterals name="REAL" literal="real"/>
@@ -69,7 +70,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PseudoInstruction" abstract="true" eSuperTypes="#//Instruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConcreteInstruction" abstract="true"
       eSuperTypes="#//Instruction"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CpuFeature" abstract="true" eSuperTypes="#//NamedEntity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CpuFeature" abstract="true" eSuperTypes="#//NamedEntity #//NamedFeature"/>
   <eClassifiers xsi:type="ecore:EClass" name="AddressableEntity" abstract="true" eSuperTypes="../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </eClassifiers>
@@ -79,5 +80,16 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ByteDimensionedEntity" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedFeature" abstract="true" interface="true">
+    <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeAbsoluteAddress" eSuperTypes="#//OperandTypeAddress"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperandTypeRelativeAddress" eSuperTypes="#//OperandTypeAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negNumType" eType="#//NEGATIVE_NUMBER_TYPE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NEGATIVE_NUMBER_TYPE">
+    <eLiterals name="ONES_COMPLEMENT" value="1" literal="1s-complement"/>
+    <eLiterals name="TWOS_COMPLEMENT" value="2" literal="simulated"/>
   </eClassifiers>
 </ecore:EPackage>
