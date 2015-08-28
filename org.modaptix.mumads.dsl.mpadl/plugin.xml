@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 
 <plugin>
+   <extension-point id="MpadlProvider" name="Plug-in provided MPADL files" schema="schema/MpadlProvider.exsd"/>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 

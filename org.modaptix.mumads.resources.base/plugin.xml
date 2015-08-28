@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.modaptix.mumads.dsl.mpadl.MpadlProvider">
+      <mpadl_file
+            resource="mpadl/68RS08.mpadl">
+      </mpadl_file>
+   </extension>
+
+</plugin>

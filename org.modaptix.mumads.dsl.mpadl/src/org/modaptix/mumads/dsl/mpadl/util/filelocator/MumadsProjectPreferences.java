@@ -23,19 +23,19 @@ public class MumadsProjectPreferences implements IMumadsProjectPreferences
 	
 	// Map keyed on project name containing the path to the Mpadl object representing
 	// the selected default architecture. 
-	protected Map<String, String> projectDefaultMpadl;
+	//protected Map<String, URI> projectDefaultMpadl;
 
 	public MumadsProjectPreferences()
 	{
-		projectDefaultMpadl = Collections.synchronizedMap(new HashMap<String, String>());
+		//projectDefaultMpadl = Collections.synchronizedMap(new HashMap<String, URI>());
 	}
 	
 	public URI getDefaultMpadlPath(final String projectName)
 	{
 		// Try to find the path to the default mpadl file in the map.
-		String mpadlPath = projectDefaultMpadl.get(projectName);
-		if (mpadlPath != null)
-			return null;
+		//String mpadlPath = projectDefaultMpadl.get(projectName);
+		//if (mpadlPath != null)
+		//	return null;
 		
 		// We didn't find it in the map so we need to get it from the project preferences.
 		// Get the properties from the project.
@@ -48,7 +48,7 @@ public class MumadsProjectPreferences implements IMumadsProjectPreferences
 	    // Construct a new resource URI
 	    if ("Project".equals(sourceType))
 	    	return URI.createURI("platform:/resource/" + sourcePloc + "/" + sourcePath);
-	    else if ("Plugin".equals(sourceType))
+	    else if ("Plug-in".equals(sourceType))
 	    	return URI.createURI("platform:/plugin/" + sourcePloc + "/" + sourcePath);
 
 	    // We still didn't find it!

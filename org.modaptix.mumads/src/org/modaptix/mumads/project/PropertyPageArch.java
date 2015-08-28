@@ -67,6 +67,9 @@ public class PropertyPageArch extends PropertyPage implements IWorkbenchProperty
 		    
 		    System.out.println("Stored properties = " + sourceType + ", " + sourcePloc + ", " + sourcePath);
 		    
+		    // Add the list of the .mpadl files contained in any plugins.
+		    ml.iterateFileResourcesFromPlugins(this);
+		    
 		    // Add the list of the .mpadl files contained in this project or any
 		    // dependent projects to the table control.
 		    ml.iterateFileResourcesByProject(project.getName(), this);

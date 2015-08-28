@@ -41,7 +41,7 @@ public class MpadlLocatorWorkspaceListener implements IResourceChangeListener, I
 
 		switch (delta.getKind()) {
             case IResourceDelta.ADDED:
-            	mpadlLocator.addResource(res);
+            	mpadlLocator.addFileResource(res);
             	return false;
             case IResourceDelta.REMOVED:
             	mpadlLocator.removeResource(res);

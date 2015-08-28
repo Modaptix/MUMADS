@@ -1,5 +1,6 @@
 package org.modaptix.mumads.dsl.mpadl.util.filelocator;
 
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ui.resource.XtextResourceSetProvider;
@@ -28,6 +31,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class MpadlLocator implements IMpadlLocator
 {
+	protected static final String extensionPointId = "org.modaptix.mumads.dsl.mpadl.MpadlProvider";
+	
 	@Inject
 	protected IMumadsProjectPreferences projectPrefs;
 	
@@ -50,7 +55,10 @@ public class MpadlLocator implements IMpadlLocator
 		{
 			fileResources = Collections.synchronizedMap(new HashMap<String, Map<String, List<String>>>());
 			pluginResources = Collections.synchronizedMap(new HashMap<String, Map<String, List<String>>>());
-	
+
+			// Add mpadl files provided by plugins.
+			processPlugins();
+			
 			// Register an IResourceChangeListener for POST_CHANGE events
 			// so we can track new and deleted files.
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -67,7 +75,46 @@ public class MpadlLocator implements IMpadlLocator
 		}
 		
 	}
+
+	private void processPlugins()
+	{
+		IConfigurationElement[] configElements = Platform.getExtensionRegistry().getConfigurationElementsFor(extensionPointId);
+		
+		for (IConfigurationElement configElement : configElements)
+		{
+			String pluginName = configElement.getContributor().getName();
+			String path = configElement.getAttribute("resource");
+			addPluginResource(pluginName, path);
+		}
+	}
 	
+	public void addPluginResource(final String pluginName, final String path)
+	{
+		// Get the arch name associated with this resource
+		// and lookup or create the arch level HashMap. 
+		String archName = Paths.get(path).getFileName().toString();
+		archName = archName.substring(0, archName.lastIndexOf('.'));
+		Map<String, List<String>> alm = pluginResources.get(archName);
+		if (alm == null)
+		{
+			alm = Collections.synchronizedMap(new HashMap<String, List<String>>());
+			pluginResources.put(archName,  alm);
+		}
+		
+		// Get the name of the project associated with this resource
+		// and lookup or create the project level Vector. 
+		List<String> plv = alm.get(pluginName);
+		if (plv == null)
+		{
+			plv = Collections.synchronizedList(new Vector<String>());
+			alm.put(pluginName, plv);
+		}
+
+		// Finally we can add the path to this resource to that vector.
+		plv.add(path);		
+	}
+
+
 	protected void processContainer(IContainer container)
 	{
 		IResource[] members;
@@ -94,11 +141,11 @@ public class MpadlLocator implements IMpadlLocator
 		
 		if ((fe != null) && (fe.equals("mpadl")))
 		{
-			addResource(member);
+			addFileResource(member);
 		}
 	}
 
-	public void addResource(IResource res)
+	public void addFileResource(IResource res)
 	{
 		// Check that we got a resource and that it at least has the
 		// correct file extension.
@@ -176,6 +223,22 @@ public class MpadlLocator implements IMpadlLocator
 					{
 						visitor.visit("Project", archEntry.getKey(), projectEntry.getKey(), filePath);
 					}
+				}
+			}
+		};
+	}
+
+	public void iterateFileResourcesFromPlugins(final IMpadlLocatorVisitor visitor)
+	{
+		// Iterate through all the available architectures
+		for (Entry<String, Map<String, List<String>>> archEntry : pluginResources.entrySet())
+		{
+			// Iterate through all the available plugins
+			for (Entry<String, List<String>> pluginEntry : archEntry.getValue().entrySet())
+			{
+				for (String filePath : pluginEntry.getValue())
+				{
+					visitor.visit("Plug-in", archEntry.getKey(), pluginEntry.getKey(), filePath);
 				}
 			}
 		};

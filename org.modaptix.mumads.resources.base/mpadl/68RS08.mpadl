@@ -1,0 +1,180 @@
+// MPADL file for Freescale 68RS08
+//
+// Author: Max Hacking
+//
+// (C) 2015 Modaptix Limited
+
+architecture "68RS08"
+{
+	cpu_features
+	{
+		real A(8),
+		real PC(14),
+		real SPC(14),
+		mmap D[X](8) 0x000E,
+		mmap X(8) 0x000F,
+		flag Z,
+		flag C
+	}
+	
+	operand_types
+	{
+		immediate "Immediate" i 8,
+
+		absolute "Byte offset" c 3,
+		absolute "Tiny" t 4,
+		absolute "Short" s 5,
+		absolute "Direct" d 8,
+		absolute "Extended" e 16,
+
+		relative 1s-complement "Relative" r 7 
+	}
+	
+	interrupt_type simulated
+	
+	interrupt_modes
+	{
+		wait
+		stop
+	}
+		
+	instruction_set
+	{
+		adc i 		-> 0xA9, [1]
+		|	d 		-> 0xB9, [1];
+		
+		add s		-> 0x60+[1]
+		|	i		-> 0xAB, [1]
+		|	d		-> 0xBB, [1];
+		
+		and i		-> 0xA4, [1]
+		|	d		-> 0xB4, [1];
+			
+		asla		-> 0x48;
+		
+		bcc r		-> 0x34, [1];
+		
+		bclr c,d	-> 0x11+([1]*2), [2];
+		
+		bcs r		-> 0x35, [1];
+		
+		beq r		-> 0x37, [1];
+
+		bgnd 		-> 0xBF;
+		
+		bne r		-> 0x36, [1];
+
+		bra r		-> 0x30, [1];
+
+		brclr c,d,r -> 0x01+([1]*2), [2], [3];
+
+		brset c,d,r -> 0x00+([1]*2), [2], [3];
+		
+		brn r		-> 0x30, 0x00, [1];
+		
+		bset c,d	-> 0x10+([1]*2), [2];
+		
+		bsr r		-> 0xAD, [1];
+		
+		cbeq d,r	-> 0x31, [1], [2]
+		|	 i,r	-> 0x41, [1], [2];
+			 
+		clc			-> 0x38;
+		
+		clr	s		-> 0x80+[1]
+		|	d		-> 0x3F, [1];
+			
+		clra		-> 0x4F;
+		
+		clrx		-> 0x8F;
+		
+		cmp i		-> 0xA1, [1]
+		|	d		-> 0xB1, [1];
+			
+		coma		-> 0x43;
+		
+		dbnz d,r	-> 0x3B, [1], [2];
+		
+		dbnza r		-> 0x4B, [1];
+		
+		dbnzx r		-> 0x3B, 0x0F, [1];
+		
+		dec t		-> 0x50+[1]
+		|	d		-> 0x3A, [1];
+			
+		deca		-> 0x4A;
+		
+		decx		-> 0x5F;
+		
+		eor	i		-> 0xA8, [1]
+		|	d		-> 0xB8, [1];
+			
+		inc t		-> 0x20+[1]
+		|	d		-> 0x3C, [1];
+			
+		inca		-> 0x4C;
+		
+		incx		-> 0x2F;
+
+		jmp e		-> 0xBC, [1];
+		
+		jsr e		-> 0xBD, [1];
+		
+		lda	s		-> 0xC0+[1]
+		|	d		-> 0xB6, [1]
+		|	i		-> 0xA6, [1];
+			
+		ldx d		-> 0x4E, [1], 0x0F
+		|	i		-> 0x3E, [1], 0x0F;
+			
+		lsla		-> 0x48;
+		
+		lsra		-> 0x44; 
+		
+		mov d,d	  	-> 0x4E, [1], [2]
+		|	i,d   	-> 0x3E, [1], [2];
+			
+		nop			-> 0xAC;
+		
+		ora	i		-> 0xAA, [1]
+		|	d		-> 0xBA, [1];
+			
+		rola		-> 0x49;
+		
+		rora		-> 0x46;
+		
+		rts			-> 0xBE;
+		
+		sbc i		-> 0xA2, [1]
+		|	d		-> 0xB2, [1];
+			
+		sec			-> 0x39;
+		
+		sha			-> 0x45;
+		
+		sla			-> 0x42;
+		
+		sta s		-> 0xE0+[1]
+		|	d		-> 0xB7, [1];
+			
+		stop		-> 0xAE;
+		
+		stx	d		-> 0x4E, 0x0F, [1];
+		
+		sub t		-> 0x70+[1]
+		|	d		-> 0xB0, [1]
+		|	i		-> 0xA0, [1];
+			
+		tax			-> 0xEF;
+		
+		tst	d		-> 0x4E, [1], [1];
+		
+		tsta		-> 0xAA, 0x00;
+		
+		tstx		-> 0x4E, 0x0F, 0x0F;
+		
+		txa			-> 0xCF;
+		
+		wait		-> 0xAF;
+	}
+}
