@@ -65,6 +65,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedEntity" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="localName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Register" abstract="true" eSuperTypes="#//CpuFeature #//BitDimensionedEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="PseudoInstruction" abstract="true" eSuperTypes="#//Instruction"/>

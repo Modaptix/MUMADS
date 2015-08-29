@@ -10,19 +10,13 @@ import "http://www.modaptix.org/mumads/dsl/mpadl/Mpadl" as mpadl
 
 import "http://www.modaptix.org/mumads/dsl/asm/Asm"
 
-
 Asm:
 	(WS* EOL)*
-	(imports+=Import (WS* EOL)+)?
 	(code+=Instruction (WS* EOL)+)+ 
 ;
 
-Import:
-	'#'? ('import'|'include') WS* importURI=STRING
-;
-
 Instruction returns mpadl::Instruction:
-	ArchInstructionOrMacro | ConcreteInstruction | PseudoInstruction
+	Label | ArchInstructionOrMacro | ConcreteInstruction | PseudoInstruction
 ;
 
 ConcreteInstruction returns mpadl::ConcreteInstruction:
@@ -30,17 +24,82 @@ ConcreteInstruction returns mpadl::ConcreteInstruction:
 ;
 
 MacroDefinition:
-	name=ID WS ('MACRO'|'macro') (WS* EOL)+
+	((name=ID WS ('MACRO'|'macro')) | ('.MACRO' WS name=ID)) (WS* EOL)+
 	(code+=Instruction (WS* EOL)+)+
-	WS ('ENDM'|'endm')
+	((WS ('ENDM'|'endm')) | ('.ENDMACRO'))
 ;
 
 PseudoInstruction returns mpadl::PseudoInstruction:
-	PseudoInstructionEqu | PseudoInstructionOrg | PseudoInstructionDs
+	PseudoInstructionIf 	|
+	PseudoInstructionDefine |
+	PseudoInstructionPragma |
+	PseudoInstructionDevice |
+	PseudoInstructionImport |
+	PseudoInstructionList 	|
+	PseudoInstructionDef 	|
+	PseudoInstructionEqu 	|
+	PseudoInstructionOrg 	|
+	PseudoInstructionDs
+;
+
+PseudoInstructionImport:
+	('#'|'.')? ('import'|'include'|'INCLUDE') WS* importURI=STRING
+;
+
+PseudoInstructionIf:
+	PseudoInstructionIfdef | PseudoInstructionIfndef
+;
+
+PseudoInstructionIfdef:
+	'#ifdef' WS condId=ID (WS* EOL)+
+		(code+=Instruction (WS* EOL)+)+
+	'#endif'
+;
+
+PseudoInstructionIfndef:
+	'#ifndef' WS condId=ID (WS* EOL)+
+		(code+=Instruction (WS* EOL)+)+
+	'#endif'
+;
+
+PseudoInstructionDefine:
+	'#define' WS name=ID
+;
+
+PseudoInstructionPragma:
+	'#pragma' WS ids+=ID (WS (ids+=ID | vals+=IntegerLiteral))*  
+;
+
+PseudoInstructionDevice:
+	('.device'|'#device') WS device=ID
+;
+
+PseudoInstructionList:
+	PseudoInstructionListOn | PseudoInstructionListOff
+;
+
+PseudoInstructionListOn:
+	{PseudoInstructionListOn} ('.list'|'.LIST')
+;
+
+PseudoInstructionListOff:
+	{PseudoInstructionListOff} ('.nolist'|'.NOLIST')
+;
+
+PseudoInstructionDef:
+	('.def'|'.DEF') WS name=ID WS? '=' WS? ref=NamedReference
 ;
 
 PseudoInstructionEqu:
-	name=ID WS ('equ'|'EQU') WS integerExpression = IntegerExpression
+	PseudoInstructionEqu1 | PseudoInstructionEqu2
+;
+
+PseudoInstructionEqu1 returns PseudoInstructionEqu:
+	('.equ'|'.EQU') WS name=ID WS '=' WS integerExpression=IntegerExpression
+;
+
+PseudoInstructionEqu2 returns PseudoInstructionEqu:
+	name=ID WS ('equ'|'EQU') WS integerExpression=IntegerExpression
 ;
 
 PseudoInstructionOrg:
@@ -48,11 +107,15 @@ PseudoInstructionOrg:
 ;
 
 PseudoInstructionDs:
-	name=ID WS ('ds'|'DS') ('.' variant=ID)? WS sizeIntExpr = IntegerExpression
+	name=ID WS ('ds'|'DS') ('.' variant=ID)? WS sizeIntExpr=IntegerExpression
+;
+
+Label:
+	(localName ?= '.')? name=ID (':')?
 ;
 
 ArchInstructionOrMacro:
-	(name=ID)? WS mnemonic=[mpadl::ConcreteInstruction] (WS operands+=Operand (COMMA operands+=Operand)* )?	
+	((localName ?= '.')? name=ID (':')?)? WS mnemonic=[mpadl::ConcreteInstruction] (WS operands+=Operand (COMMA operands+=Operand)* )?	
 ;
 
 Operand:

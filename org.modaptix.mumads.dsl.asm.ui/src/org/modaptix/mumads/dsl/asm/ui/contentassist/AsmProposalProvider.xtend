@@ -237,20 +237,20 @@ class AsmProposalProvider extends AbstractAsmProposalProvider
 		if (debug) System.out.println("AsmProposalProvider::completeOperand_Immediate")
 	}
 
-	override completeAsm_Imports(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	/*override completeAsm_Imports(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{
 		if (debug) System.out.println("AsmProposalProvider::completeAsm_Imports")
-	}
+	}*/
 
 	override completeAsm_Code(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{
 		if (debug) System.out.println("AsmProposalProvider::completeAsm_Code")
 	}
 
-	override completeImport_ImportURI(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	/*override completeImport_ImportURI(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{
 		if (debug) System.out.println("AsmProposalProvider::completeImport_ImportURI")
-	}
+	}*/
 
 	override completeMacroDefinition_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{
@@ -262,7 +262,7 @@ class AsmProposalProvider extends AbstractAsmProposalProvider
 		if (debug) System.out.println("AsmProposalProvider::completeMacroDefinition_Code")
 	}
 
-	override completePseudoInstructionEqu_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	/*override completePseudoInstructionEqu_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{
 		if (debug) System.out.println("AsmProposalProvider::completePseudoInstructionEqu_Name")
 	}
@@ -270,7 +270,7 @@ class AsmProposalProvider extends AbstractAsmProposalProvider
 	override completePseudoInstructionEqu_IntegerExpression(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{
 		if (debug) System.out.println("AsmProposalProvider::completePseudoInstructionEqu_IntegerExpression")
-	}
+	}*/
 
 	override completePseudoInstructionOrg_Address(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
 	{

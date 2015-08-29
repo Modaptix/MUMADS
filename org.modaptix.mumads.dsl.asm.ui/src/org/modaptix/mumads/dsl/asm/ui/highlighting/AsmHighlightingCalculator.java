@@ -8,17 +8,18 @@ import org.eclipse.xtext.impl.KeywordImpl;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.modaptix.mumads.dsl.asm.asm.ArchInstructionOrMacro;
-import org.modaptix.mumads.dsl.asm.asm.PseudoInstructionDs;
-import org.modaptix.mumads.dsl.asm.asm.PseudoInstructionEqu;
 import org.modaptix.mumads.dsl.asm.asm.MacroDefinition;
 import org.modaptix.mumads.dsl.asm.asm.NamedReference;
+import org.modaptix.mumads.dsl.asm.asm.PseudoInstructionDs;
+import org.modaptix.mumads.dsl.asm.asm.PseudoInstructionEqu;
+import org.modaptix.mumads.dsl.mpadl.mpadl.NamedEntity;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexable;
 import org.modaptix.mumads.dsl.mpadl.mpadl.RegisterIndexed;
 import org.modaptix.xtext.util.PolymorphicSemanticHighlightingCalculator;
 
 public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCalculator
 {
-	protected void highlight(ArchInstructionOrMacro semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
+	protected void highlight(NamedEntity semanticElement, RuleCall ruleCall, Assignment assignment, INode node, IHighlightedPositionAcceptor acceptor)
 	{
 		final String featureName = assignment.getFeature();
 		
@@ -47,12 +48,12 @@ public class AsmHighlightingCalculator extends PolymorphicSemanticHighlightingCa
 		if ((namedReference.getTarget() instanceof RegisterIndexable) ||
 			(namedReference.getTarget() instanceof RegisterIndexed))
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.REGISTER_ID);
-		else if (namedReference.getTarget() instanceof ArchInstructionOrMacro)
-			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.LABEL_ID);
 		else if (namedReference.getTarget() instanceof PseudoInstructionEqu)
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.EQUATE_ID);
 		else if (namedReference.getTarget() instanceof PseudoInstructionDs)
 			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.DS_ID);
+		else if (namedReference.getTarget() instanceof NamedEntity)
+			acceptor.addPosition(node.getOffset(), node.getLength(), AsmHighlightingConfiguration.LABEL_ID);
 	}
 	
 	protected void highlight(MacroDefinition semanticElement, KeywordImpl grammarElement, EObject grammarElementContainer, INode node, IHighlightedPositionAcceptor acceptor)
