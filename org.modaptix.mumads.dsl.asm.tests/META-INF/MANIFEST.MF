@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.modaptix.mumads.dsl.asm.tests
-Bundle-Vendor: My Company
+Bundle-Vendor: Modaptix
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.modaptix.mumads.dsl.asm.tests; singleton:=true
 Bundle-ActivationPolicy: lazy

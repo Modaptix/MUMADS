@@ -85,6 +85,20 @@
       </image>
    </extension>
    <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.modaptix.mumads.wizards"
+            name="MUMADS">
+      </category>
+      <wizard
+            category="org.modaptix.mumads.wizards"
+            class="org.modaptix.mumads.project.NewProjectWizard"
+            id="org.modaptix.mumads.wizard.newproject"
+            name="MUMADS project"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
          id="projectNature"
          point="org.eclipse.ui.propertyPages">
       <page
@@ -130,18 +144,12 @@
       </page>
    </extension>
    <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="org.modaptix.mumads.wizards"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.modaptix.mumads.project.PreferencePageMain"
+            id="org.modaptix.mumads.project.preferencepages.main"
             name="MUMADS">
-      </category>
-      <wizard
-            category="org.modaptix.mumads.wizards"
-            class="org.modaptix.mumads.project.NewProjectWizard"
-            id="org.modaptix.mumads.wizard.newproject"
-            name="MUMADS project"
-            project="true">
-      </wizard>
+      </page>
    </extension>
 
 </plugin>

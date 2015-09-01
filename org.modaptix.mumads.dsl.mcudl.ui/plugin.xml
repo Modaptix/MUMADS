@@ -80,9 +80,10 @@
     <extension
             point="org.eclipse.ui.preferencePages">
         <page
-            class="org.modaptix.mumads.dsl.mcudl.ui.McudlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-            id="org.modaptix.mumads.dsl.mcudl.Mcudl"
-            name="Mcudl">
+              category="org.modaptix.mumads.project.preferencepages.main"
+              class="org.modaptix.mumads.dsl.mcudl.ui.McudlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+              id="org.modaptix.mumads.dsl.mcudl.Mcudl"
+              name="Mcudl">
             <keywordReference id="org.modaptix.mumads.dsl.mcudl.ui.keyword_Mcudl"/>
         </page>
         <page
@@ -103,9 +104,10 @@
     <extension
             point="org.eclipse.ui.propertyPages">
         <page
-            class="org.modaptix.mumads.dsl.mcudl.ui.McudlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-            id="org.modaptix.mumads.dsl.mcudl.Mcudl"
-            name="Mcudl">
+              category="org.modaptix.mumads.project.propertypages.main"
+              class="org.modaptix.mumads.dsl.mcudl.ui.McudlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+              id="org.modaptix.mumads.dsl.mcudl.Mcudl"
+              name="Mcudl">
             <keywordReference id="org.modaptix.mumads.dsl.mcudl.ui.keyword_Mcudl"/>
             <enabledWhen>
 	            <adapt type="org.eclipse.core.resources.IProject"/>

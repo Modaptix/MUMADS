@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.modaptix.mumads.dsl.mpadl.ui
-Bundle-Vendor: My Company
-Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Modaptix
+Bundle-Version: 0.0.1.qualifier
 Bundle-SymbolicName: org.modaptix.mumads.dsl.mpadl.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.modaptix.mumads.dsl.mpadl;visibility:=reexport,
@@ -17,7 +17,7 @@ Require-Bundle: org.modaptix.mumads.dsl.mpadl;visibility:=reexport,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.xtext.ui.codetemplates.ui,
  org.eclipse.compare,
- org.modaptix.xtext.expressions;bundle-version="1.0.0",
+ org.modaptix.xtext.expressions,
  org.modaptix.xtext.expressions.ui
 Import-Package: org.apache.log4j,
  org.modaptix.xtext.util

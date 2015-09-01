@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.modaptix.mumads.dsl.mpadl
-Bundle-Vendor: My Company
-Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Modaptix
+Bundle-Version: 0.0.1.qualifier
 Bundle-SymbolicName: org.modaptix.mumads.dsl.mpadl; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
- org.modaptix.xtext.expressions;bundle-version="1.0.0",
+ org.modaptix.xtext.expressions,
  org.eclipse.core.resources,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.di;bundle-version="1.5.0",

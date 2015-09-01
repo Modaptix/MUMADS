@@ -2,15 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: MUMADS
 Bundle-SymbolicName: org.modaptix.mumads;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: Modaptix
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Activator: org.modaptix.mumads.context.Activator
-Require-Bundle: org.modaptix.mumads.dsl.mpadl;bundle-version="1.0.0",
- org.modaptix.mumads.dsl.asm;bundle-version="1.0.0",
- org.modaptix.mumads.dsl.asm.ui;bundle-version="1.0.0",
- org.modaptix.mumads.dsl.mcudl;bundle-version="1.0.0",
- org.modaptix.xtext.expressions;bundle-version="1.0.0",
+Require-Bundle: org.modaptix.mumads.dsl.mpadl,
+ org.modaptix.mumads.dsl.asm,
+ org.modaptix.mumads.dsl.asm.ui,
+ org.modaptix.mumads.dsl.mcudl,
+ org.modaptix.xtext.expressions,
  org.eclipse.core.expressions;bundle-version="3.5.0",
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -20,7 +20,7 @@ Require-Bundle: org.modaptix.mumads.dsl.mpadl;bundle-version="1.0.0",
  org.eclipse.swt,
  org.eclipse.e4.core.di;bundle-version="1.5.0",
  org.eclipse.xtext.ui,
- org.modaptix.mumads.resources.base;bundle-version="1.0.0"
+ org.modaptix.mumads.resources.base
 Import-Package: org.apache.commons.lang3
 Bundle-ActivationPolicy: lazy
 Export-Package: org.modaptix.mumads.context;
