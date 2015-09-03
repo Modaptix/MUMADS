@@ -1,8 +1,17 @@
-package org.modaptix.mumads.dsl.mpadl.util.filelocator;
+/*******************************************************************************
+ * Copyright (c) 2015 Modaptix Limited.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Max Hacking - initial implementation
+ *     
+ *******************************************************************************/
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+package org.modaptix.mumads.dsl.mpadl.util.filelocator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
